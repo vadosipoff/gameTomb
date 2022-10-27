@@ -1,0 +1,82 @@
+#include "wowcore.inc"
+#include "topology.inc"
+#include "graphics.inc"
+#include "motion_sensor.inc"
+#include "math.inc"
+
+
+
+#define SIZE_SCREEN 240
+#define MODULE_MAX 8
+#define SCREEN_MAX 3
+#define SIZE_GRID_MAP 12
+
+#define MIN_ACCEL 15
+
+#define DIRECTION_X 10
+#define DIRECTION_Y 11
+
+#define LEFT_TOP 101
+#define TOP_LEFT 102
+
+
+new MODULES_MAP [MODULE_MAX * SCREEN_MAX][SIZE_GRID_MAP][SIZE_GRID_MAP];
+#define MAP(%0)(%1)(%2) MODULES_MAP[SELF_ID * SCREEN_MAX + %0][%1][%2]
+
+
+new sendPacketIndex[8];
+new recvPacketIndex[8];
+
+
+
+new previousTime = 0;
+new currentTime = 0;
+new deltaTime = 0;
+
+
+new timer[.delay, .time];
+
+
+new HeroGridPos[.xPos, .yPos]; // Hero position at grid
+new HeroGridTargetPos[.xPos, .yPos]; // Hero target position at grid
+new HeroFacelet[TOPOLOGY_FACELET]; // Hero facelet - module and screen
+new HeroRect[GFX_RECTANGLE]; // hero sprite rect
+
+new bool: HeroMoveStatus = false; // hero move status move and static
+new Direction; // direction of moving hero
+
+
+const e_MESSAGES_FLAG:{
+    e_MESSAGE_MOVE_HERO_MTM = 0,
+    e_MESSAGE_MAX
+}
+
+
+new currentLevel;
+
+new MenuFacelet[TOPOLOGY_FACELET];
+new MenuPlace[TOPOLOGY_PLACE];
+new MenuFace;
+new ImageStar[.empty, .flood];
+new ImageArrows;
+
+new GameStatus;
+
+const e_GAME_STATUS:{
+    e_GAME_STATUS_MENU = 0,
+    e_GAME_STATUS_GAME,
+    e_GAME_STATUS_MAX
+}
+
+const e_GAME_LEVEL:{
+    e_GAME_LEVEL_1 = 0,
+    e_GAME_LEVEL_2,
+    e_GAME_LEVEL_MAX
+}
+
+
+#define QUERRY_CHECK 200
+#define RESPONCE_CHECK 201
+
+#define MOVING_OK 30
+#define MOVING_NOT 30
