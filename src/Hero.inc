@@ -39,11 +39,12 @@ chekHeroMovingWay(DirectionF, Accel)
             HeroGridTargetPos.yPos = HeroGridPos.yPos;
             for(new i = HeroGridPos.xPos; i < 12; i++)
             {
-                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 0)
+                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 0
+                    || MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 2)
                 {
                     HeroGridTargetPos.xPos = i;
                 }
-                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) != 0)
+                else
                 {
                     break;
                 }
@@ -58,11 +59,12 @@ chekHeroMovingWay(DirectionF, Accel)
             HeroGridTargetPos.yPos = HeroGridPos.yPos;
             for(new i = HeroGridPos.xPos; i >= 0; i--)
             {
-                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 0)
+                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 0
+                    || MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 2)
                 {
                     HeroGridTargetPos.xPos = i;
                 }
-                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) != 0)
+                else
                 {
                     break;
                 }
@@ -76,11 +78,12 @@ chekHeroMovingWay(DirectionF, Accel)
             HeroGridTargetPos.xPos = HeroGridPos.xPos;
             for(new i = HeroGridPos.yPos; i < 12; i++)
             {
-                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 0)
+                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 0
+                    || MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 2)
                 {
                     HeroGridTargetPos.yPos = i;
                 }
-                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) != 0)
+                else
                 {
                     break;
                 }
@@ -95,11 +98,12 @@ chekHeroMovingWay(DirectionF, Accel)
             HeroGridTargetPos.xPos = HeroGridPos.xPos;
             for(new i = HeroGridPos.yPos; i >= 0; i--)
             {
-                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 0)
+                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 0
+                    || MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 2)
                 {
                     HeroGridTargetPos.yPos = i;
                 }
-                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) != 0)
+                else
                 {
                     break;
                 }
@@ -110,9 +114,9 @@ chekHeroMovingWay(DirectionF, Accel)
         if (HeroGridPos.xPos != HeroGridTargetPos.xPos || HeroGridPos.yPos != HeroGridTargetPos.yPos )
         {
             HeroMoveStatus = true;
-            printf("MOVING\n");
-            printf("Accel = %d, Direction: %d\n", Accel, Direction);
-            printf("HeroGridTargetPos: x: %d, y: %d\n", HeroGridTargetPos.xPos, HeroGridTargetPos.yPos);
+            //printf("MOVING\n");
+            //printf("Accel = %d, Direction: %d\n", Accel, Direction);
+            //printf("HeroGridTargetPos: x: %d, y: %d\n", HeroGridTargetPos.xPos, HeroGridTargetPos.yPos);
         }
     }
 }
@@ -135,6 +139,10 @@ MoveHero()
                 HeroRect.x = HeroGridTargetPos.xPos*20;
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
                 HeroMoveStatus = false;
+                if(HeroGridPos.xPos < 11)
+                {
+                    chekSpickeGameOver(Direction, 1);
+                }
             }
         }
         else
@@ -151,6 +159,9 @@ MoveHero()
                 if(HeroGridPos.xPos == 0)
                 {
                     chekWallAtNeighbor(LEFT_TOP, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
+                } else
+                {
+                    chekSpickeGameOver(Direction, -1);
                 }
                 HeroMoveStatus = false;
             }
@@ -172,10 +183,7 @@ MoveHero()
                 HeroMoveStatus = false;
                 if(HeroGridPos.yPos < 11)
                 {
-                    if(MAP(HeroFacelet.screen)(HeroGridPos.yPos+1)(HeroGridPos.xPos) == 3)
-                    {
-                        printf("Game Over \n");
-                    }
+                    chekSpickeGameOver(Direction, 1);
                 }
             }
         }
@@ -193,12 +201,42 @@ MoveHero()
                 if(HeroGridPos.yPos == 0)
                 {
                     chekWallAtNeighbor(TOP_LEFT, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
+                } else
+                {
+                    chekSpickeGameOver(Direction, -1);
                 }
                 HeroMoveStatus = false;
             }
         }
     }
+    chekWictoryOrGameOver();
 }
+
+
+chekSpickeGameOver(Direction, AxisDir)
+{
+    switch(Direction)
+    {
+        case DIRECTION_X:
+        {
+            if(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(HeroGridPos.xPos+AxisDir) == 3)
+            {
+                //printf("Game Over \n");
+                SendGameOver();
+            }
+        }
+
+        case DIRECTION_Y:
+        {
+            if(MAP(HeroFacelet.screen)(HeroGridPos.yPos+AxisDir)(HeroGridPos.xPos) == 3)
+            {
+                //printf("Game Over \n");
+                SendGameOver();
+            }
+        }
+    }
+}
+
 
 chekWallAtNeighbor(MOVE_FLAG, GridxPos, GridyPos, HeroFacelet[TOPOLOGY_FACELET])
 {
@@ -219,6 +257,10 @@ chekWallAtNeighbor(MOVE_FLAG, GridxPos, GridyPos, HeroFacelet[TOPOLOGY_FACELET])
         HeroFacelet.screen = neighbor.screen;
 
         MoveHeroToNeighbor(neighbor.module, MOVE_FLAG, neighbor.screen, HeroGridPos.xPos, HeroGridPos.yPos);
+    }
+    if (MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos] == 3)
+    {
+        SendGameOver();
     }
   
 }

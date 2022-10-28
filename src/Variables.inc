@@ -48,6 +48,8 @@ new Direction; // direction of moving hero
 
 const e_MESSAGES_FLAG:{
     e_MESSAGE_MOVE_HERO_MTM = 0,
+    e_MESSAGE_WICTORY,
+    e_MESSAGE_GAMEOVER,
     e_MESSAGE_MAX
 }
 
@@ -65,12 +67,15 @@ new GameStatus;
 const e_GAME_STATUS:{
     e_GAME_STATUS_MENU = 0,
     e_GAME_STATUS_GAME,
+    e_GAME_STATUS_WIN,
+    e_GAME_STATUS_GAMEOVER,
     e_GAME_STATUS_MAX
 }
 
 const e_GAME_LEVEL:{
     e_GAME_LEVEL_1 = 0,
     e_GAME_LEVEL_2,
+    e_GAME_LEVEL_3,
     e_GAME_LEVEL_MAX
 }
 

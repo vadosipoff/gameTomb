@@ -61,11 +61,18 @@ public ON_Tick()
         {
             Menu();
         }
-
         case e_GAME_STATUS_GAME:
         {
             HeroLogic();
             DrawGame();
+        }
+        case e_GAME_STATUS_WIN:
+        {
+            WinScreen();
+        }
+        case e_GAME_STATUS_GAMEOVER:
+        {
+            GameOverScreen();
         }
     }
 
@@ -105,13 +112,31 @@ public ON_Message(const pkt[MESSAGE_SIZE])
                     HeroFacelet.screen = parseByte(pkt, 2);
 
                     if(parseByte(pkt, 5) == LEFT_TOP)
+                    {
                         chekHeroMovingWay(DIRECTION_Y, (MIN_ACCEL+1));
-
+                        chekSpickeGameOver(DIRECTION_Y, 1);
+                    }
                     if(parseByte(pkt, 5) == TOP_LEFT)
+                    {
                         chekHeroMovingWay(DIRECTION_X, (MIN_ACCEL+1));
+                        chekSpickeGameOver(DIRECTION_X, 1);
+                    }
 
                 }
             }
+        }
+
+        case e_MESSAGE_WICTORY:
+        {
+            //printf("Module %d, status Wictory\n", SELF_ID);
+            //currentLevel = parseByte(pkt, 1);
+
+            GameStatus = e_GAME_STATUS_WIN;
+            
+        }
+        case e_MESSAGE_GAMEOVER:
+        {
+            GameStatus = e_GAME_STATUS_GAMEOVER;
         }
     }
 
@@ -136,6 +161,22 @@ public ON_Twist(twist[TOPOLOGY_TWIST_INFO])
 
         case e_GAME_STATUS_GAME:
         {
+        }
+
+        case e_GAME_STATUS_WIN:
+        {
+            currentLevel +=1;
+            GameStatus = e_GAME_STATUS_MENU;
+        }
+
+        case e_GAME_STATUS_GAMEOVER:
+        {
+            ///////////////////////////////////////////////
+            /////////////////////////////////////////////// 
+            InitLevelMap(currentLevel);
+            GameStatus = e_GAME_STATUS_GAME;
+            ///////////////////////////////////////////////
+            ///////////////////////////////////////////////
         }
      
 
@@ -167,7 +208,7 @@ public ON_Tap(const count, const display, const bool:opposite)
         {
         }
     }
-
+    printf("Screen: %d\n", display);
 }
 
 //Application quit callback.
