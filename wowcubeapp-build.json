@@ -26,6 +26,22 @@
     {
       "path": "assets/images/arrows.png",
       "alias": "arrows.png"
+    },
+    {
+      "path": "assets/images/Wall.png",
+      "alias": "Wall.png"
+    },
+    {
+      "path": "assets/images/Wall2.png",
+      "alias": "Wall2.png"
+    },
+    {
+      "path": "assets/images/Wall3.png",
+      "alias": "Wall3.png"
+    },
+    {
+      "path": "assets/images/Spike.png",
+      "alias": "Spike.png"
     }
   ],
   "soundAssets": []

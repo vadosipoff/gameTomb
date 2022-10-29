@@ -36,6 +36,8 @@ new deltaTime = 0;
 
 new timer[.delay, .time];
 
+new ImageWall;
+new ImageSpike;
 
 new HeroGridPos[.xPos, .yPos]; // Hero position at grid
 new HeroGridTargetPos[.xPos, .yPos]; // Hero target position at grid

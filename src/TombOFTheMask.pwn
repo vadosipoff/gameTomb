@@ -37,6 +37,8 @@ public ON_Init(id, size, const pkt[])
 
     ImageStar.flood = GFX_getAssetId("star_empty.png");
     ImageArrows = GFX_getAssetId("arrows.png");
+    ImageWall = GFX_getAssetId("Wall3.png");
+    ImageSpike = GFX_getAssetId("Spike.png");
 
     timer.time = getTime();
 
