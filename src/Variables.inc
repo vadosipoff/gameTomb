@@ -34,7 +34,12 @@ new currentTime = 0;
 new deltaTime = 0;
 
 
+new CoinsColors[2] = [0xFFFFFF00, 0xFF78DBE2];
+new CoinColor;
+
 new timer[.delay, .time];
+new HeroAnimationTimer[.delay, .time];
+new CoinsAnimationTimer[.delay, .time];
 
 new ImageWall;
 new ImageSpike;
@@ -63,6 +68,7 @@ new MenuPlace[TOPOLOGY_PLACE];
 new MenuFace;
 new ImageStar[.empty, .flood];
 new ImageArrows;
+new ImageHero;
 
 new GameStatus;
 

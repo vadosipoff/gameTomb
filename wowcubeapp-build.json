@@ -42,6 +42,18 @@
     {
       "path": "assets/images/Spike.png",
       "alias": "Spike.png"
+    },
+    {
+      "path": "assets/images/Tomb.png",
+      "alias": "Tomb.png"
+    },
+    {
+      "path": "assets/images/Wall4.png",
+      "alias": "Wall4.png"
+    },
+    {
+      "path": "assets/images/Wall5.png",
+      "alias": "Wall5.png"
     }
   ],
   "soundAssets": []

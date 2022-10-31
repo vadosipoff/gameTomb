@@ -8,6 +8,7 @@ HeroLogic()
     timer.time = currentTime;
     if(SELF_ID == HeroFacelet.module)
     {
+        ChekCoinsCollision();
         if (!HeroMoveStatus)
         {
             new AccelX = MS_getFaceAccelX(HeroFacelet.screen);
@@ -27,6 +28,76 @@ HeroLogic()
     }
 }
 
+ChekCoinsCollision()
+{
+    if(HeroMoveStatus)
+    {
+        new StartPoint;
+        new EndPoint;
+        new AxisHeroPos;
+
+        switch (Direction)
+        {
+            case DIRECTION_X:
+            {
+                StartPoint = HeroRect.x / 20;
+                EndPoint = (HeroRect.x + 20) / 20;
+                AxisHeroPos = HeroRect.y / 20;
+
+                CollectCoin(AxisHeroPos, StartPoint);
+                CollectCoin(AxisHeroPos, EndPoint);
+
+            }
+            case DIRECTION_Y:
+            {
+                StartPoint = HeroRect.y / 20;
+                EndPoint = (HeroRect.y + 20) / 20;
+                AxisHeroPos = HeroRect.x / 20;
+
+                CollectCoin(StartPoint, AxisHeroPos);
+                CollectCoin(EndPoint, AxisHeroPos);
+            }
+        }
+
+
+    }
+    else
+    {
+        CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
+    }
+}
+
+CollectCoin(xPos, yPos)
+{
+    if (MAP(HeroFacelet.screen)(xPos)(yPos) == 4)
+    {
+        MAP(HeroFacelet.screen)(xPos)(yPos) = 0;
+    }
+ 
+}
+
+
+
+
+WayIsFree(Cell)
+{
+    new bFree = false;
+    switch (Cell)
+    {
+        case 0:
+            bFree = true;
+
+        case 2:
+            bFree = true;
+
+        case 4:
+            bFree = true;
+
+    }
+
+    return bFree;
+}
+
 chekHeroMovingWay(DirectionF, Accel)
 {
     Direction = DirectionF;
@@ -39,8 +110,7 @@ chekHeroMovingWay(DirectionF, Accel)
             HeroGridTargetPos.yPos = HeroGridPos.yPos;
             for(new i = HeroGridPos.xPos; i < 12; i++)
             {
-                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 0
-                    || MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 2)
+                if (WayIsFree(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i)))
                 {
                     HeroGridTargetPos.xPos = i;
                 }
@@ -54,13 +124,13 @@ chekHeroMovingWay(DirectionF, Accel)
         {
             if (HeroGridPos.xPos == 0)
             {
+                CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
                 chekWallAtNeighbor(LEFT_TOP, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
             }
             HeroGridTargetPos.yPos = HeroGridPos.yPos;
             for(new i = HeroGridPos.xPos; i >= 0; i--)
             {
-                if (MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 0
-                    || MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i) == 2)
+                if (WayIsFree(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i)))
                 {
                     HeroGridTargetPos.xPos = i;
                 }
@@ -78,8 +148,7 @@ chekHeroMovingWay(DirectionF, Accel)
             HeroGridTargetPos.xPos = HeroGridPos.xPos;
             for(new i = HeroGridPos.yPos; i < 12; i++)
             {
-                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 0
-                    || MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 2)
+                if (WayIsFree(MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos)))
                 {
                     HeroGridTargetPos.yPos = i;
                 }
@@ -93,13 +162,13 @@ chekHeroMovingWay(DirectionF, Accel)
         {
             if (HeroGridPos.yPos == 0)
             {
+                CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
                 chekWallAtNeighbor(TOP_LEFT, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
             }
             HeroGridTargetPos.xPos = HeroGridPos.xPos;
             for(new i = HeroGridPos.yPos; i >= 0; i--)
             {
-                if (MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 0
-                    || MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos) == 2)
+                if (WayIsFree(MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos)))
                 {
                     HeroGridTargetPos.yPos = i;
                 }
@@ -158,6 +227,7 @@ MoveHero()
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
                 if(HeroGridPos.xPos == 0)
                 {
+                    CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
                     chekWallAtNeighbor(LEFT_TOP, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
                 } else
                 {
@@ -200,6 +270,7 @@ MoveHero()
                 HeroGridPos.yPos = HeroGridTargetPos.yPos;
                 if(HeroGridPos.yPos == 0)
                 {
+                    CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
                     chekWallAtNeighbor(TOP_LEFT, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
                 } else
                 {
@@ -251,7 +322,7 @@ chekWallAtNeighbor(MOVE_FLAG, GridxPos, GridyPos, HeroFacelet[TOPOLOGY_FACELET])
             neighbor = TOPOLOGY_getAdjacentFacelet(HeroFacelet, NEIGHBOR_TOP);
     }
 
-    if (MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos] == 0)
+    if (WayIsFree(MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos]))
     {
         HeroFacelet.module = neighbor.module;
         HeroFacelet.screen = neighbor.screen;
@@ -276,4 +347,13 @@ MoveHeroToNeighbor(MODULE_DEST, MOVE_FLAG, MODULE_DEST_SCREEN, HERO_X_POS, HERO_
     data[1] = (sendPacketIndex[MODULE_DEST] << 0) | (MOVE_FLAG << 8) | (HERO_X_POS << 16) | (HERO_Y_POS << 24);
 
     broadcastMessage(data);
+}
+
+DrawHero(screenNumber)
+{
+    new centerX = HeroRect.x + 10;
+    new centerY = HeroRect.y + 10;
+
+    GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageHero);
+    //GFX_drawRectangle(HeroRect, GFX_fromARGB8888(255,255,255,000));
 }

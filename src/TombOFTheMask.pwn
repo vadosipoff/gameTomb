@@ -37,10 +37,16 @@ public ON_Init(id, size, const pkt[])
 
     ImageStar.flood = GFX_getAssetId("star_empty.png");
     ImageArrows = GFX_getAssetId("arrows.png");
-    ImageWall = GFX_getAssetId("Wall3.png");
+    ImageWall = GFX_getAssetId("Wall5.png");
     ImageSpike = GFX_getAssetId("Spike.png");
+    ImageHero = GFX_getAssetId("Tomb.png");
+
+
+    CoinColor = 0;
 
     timer.time = getTime();
+    CoinsAnimationTimer.time = getTime();
+    CoinsAnimationTimer.delay = 200;
 
     currentLevel = 1;
 
