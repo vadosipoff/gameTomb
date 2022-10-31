@@ -8,7 +8,8 @@ HeroLogic()
     timer.time = currentTime;
     if(SELF_ID == HeroFacelet.module)
     {
-        ChekCoinsCollision();
+        HeroPreviosGridPos.xPos = HeroRect.x / 20;
+        HeroPreviosGridPos.yPos = HeroRect.y / 20;
         if (!HeroMoveStatus)
         {
             new AccelX = MS_getFaceAccelX(HeroFacelet.screen);
@@ -25,53 +26,81 @@ HeroLogic()
         {
             MoveHero();
         }
+        ChekCoinsCollision();
     }
 }
 
 ChekCoinsCollision()
 {
-    if(HeroMoveStatus)
+
+    new CurrentGridMAxisPos;
+    new StartPos;
+    new EndPos;
+    //new PreviosPos;
+
+    if(HeroRect.x / 20 != HeroPreviosGridPos.xPos || HeroRect.y / 20 != HeroPreviosGridPos.yPos)
     {
-        new StartPoint;
-        new EndPoint;
-        new AxisHeroPos;
 
         switch (Direction)
         {
             case DIRECTION_X:
             {
-                StartPoint = HeroRect.x / 20;
-                EndPoint = (HeroRect.x + 20) / 20;
-                AxisHeroPos = HeroRect.y / 20;
+                CurrentGridMAxisPos = HeroRect.x / 20;
 
-                CollectCoin(AxisHeroPos, StartPoint);
-                CollectCoin(AxisHeroPos, EndPoint);
+                if(CurrentGridMAxisPos - HeroPreviosGridPos.xPos > 0)
+                {
+                    StartPos = HeroPreviosGridPos.xPos;
+                    EndPos = CurrentGridMAxisPos;
+                }
+                else
+                {
+                    StartPos = CurrentGridMAxisPos;
+                    EndPos = HeroPreviosGridPos.xPos;
+                }
+
+                for(new i = StartPos; i <= EndPos; i++)
+                {
+                    CollectCoin(HeroGridPos.yPos, i);
+                }
+
+                //printf("Collect coin Axis X from %d to %d\n", StartPos, EndPos);
 
             }
             case DIRECTION_Y:
             {
-                StartPoint = HeroRect.y / 20;
-                EndPoint = (HeroRect.y + 20) / 20;
-                AxisHeroPos = HeroRect.x / 20;
+                CurrentGridMAxisPos = HeroRect.y / 20;
 
-                CollectCoin(StartPoint, AxisHeroPos);
-                CollectCoin(EndPoint, AxisHeroPos);
+                if(CurrentGridMAxisPos - HeroPreviosGridPos.yPos > 0)
+                {
+                    StartPos = HeroPreviosGridPos.yPos;
+                    EndPos = CurrentGridMAxisPos;
+                }
+                else
+                {
+                    StartPos = CurrentGridMAxisPos;
+                    EndPos = HeroPreviosGridPos.yPos;
+                }
+
+                for(new i = StartPos; i <= EndPos; i++)
+                {
+                    CollectCoin(i, HeroGridPos.xPos);
+                }
+                //printf("Collect coin Axis Y from %d to %d\n", StartPos, EndPos);
             }
         }
-
-
     }
     else
     {
         CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
     }
+
 }
 
-CollectCoin(xPos, yPos)
+CollectCoin(yPos, xPos)
 {
-    if (MAP(HeroFacelet.screen)(xPos)(yPos) == 4)
+    if (MAP(HeroFacelet.screen)(yPos)(xPos) == 4)
     {
-        MAP(HeroFacelet.screen)(xPos)(yPos) = 0;
+        MAP(HeroFacelet.screen)(yPos)(xPos) = 0;
     }
  
 }
@@ -207,6 +236,7 @@ MoveHero()
             {
                 HeroRect.x = HeroGridTargetPos.xPos*20;
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
+                //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos - 1);
                 HeroMoveStatus = false;
                 if(HeroGridPos.xPos < 11)
                 {
@@ -225,9 +255,11 @@ MoveHero()
             {
                 HeroRect.x = HeroGridTargetPos.xPos*20;
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
+                //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos + 1);
                 if(HeroGridPos.xPos == 0)
                 {
-                    CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
+                    //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
+                    ChekCoinsCollision();
                     chekWallAtNeighbor(LEFT_TOP, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
                 } else
                 {
@@ -250,6 +282,7 @@ MoveHero()
             {
                 HeroRect.y = HeroGridTargetPos.yPos*20;
                 HeroGridPos.yPos = HeroGridTargetPos.yPos;
+                //CollectCoin(HeroGridPos.yPos - 1, HeroGridPos.xPos);
                 HeroMoveStatus = false;
                 if(HeroGridPos.yPos < 11)
                 {
@@ -268,9 +301,11 @@ MoveHero()
             {
                 HeroRect.y = HeroGridTargetPos.yPos*20;
                 HeroGridPos.yPos = HeroGridTargetPos.yPos;
+                //CollectCoin(HeroGridPos.yPos + 1, HeroGridPos.xPos);
                 if(HeroGridPos.yPos == 0)
                 {
-                    CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
+                    //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
+                    ChekCoinsCollision();
                     chekWallAtNeighbor(TOP_LEFT, HeroGridPos.xPos, HeroGridPos.yPos, HeroFacelet);
                 } else
                 {

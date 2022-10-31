@@ -45,6 +45,7 @@ new ImageWall;
 new ImageSpike;
 
 new HeroGridPos[.xPos, .yPos]; // Hero position at grid
+new HeroPreviosGridPos[.xPos, .yPos];
 new HeroGridTargetPos[.xPos, .yPos]; // Hero target position at grid
 new HeroFacelet[TOPOLOGY_FACELET]; // Hero facelet - module and screen
 new HeroRect[GFX_RECTANGLE]; // hero sprite rect
