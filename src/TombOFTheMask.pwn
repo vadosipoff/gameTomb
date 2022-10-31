@@ -207,6 +207,10 @@ public ON_Twist(twist[TOPOLOGY_TWIST_INFO])
 //Device shake detection callback.
 public ON_Shake(const count) 
 {
+    if (count > 6)
+    {
+        quit();
+    }
 }
 
 //Screen tap callback.
