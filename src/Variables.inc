@@ -40,10 +40,22 @@ new CoinColor;
 new timer[.delay, .time];
 new HeroAnimationTimer[.delay, .time];
 new CoinsAnimationTimer[.delay, .time];
+new MapBackGroundAnimationTimer[.delay, .time];
 
 new ImageWall;
 new ImageSpike;
+new ImageWallStick;
+new ImageWallBack;
 
+new BackGroundAlpha[5] = [0xFF, 0xF0, 0xE1, 0xD2, 0xC3];
+new AlphaMapIter = 0;
+new AlphaMapIterSide = 0;
+
+new ViewAxis = 0;
+
+
+new HeroAnimIter = 0;
+new HeroSprites[5];
 new HeroGridPos[.xPos, .yPos]; // Hero position at grid
 new HeroPreviosGridPos[.xPos, .yPos];
 new HeroGridTargetPos[.xPos, .yPos]; // Hero target position at grid

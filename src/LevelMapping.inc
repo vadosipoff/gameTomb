@@ -2,21 +2,44 @@
 
 DrawGame()
 {
+
     currentTime = getTime();
     if (currentTime - CoinsAnimationTimer.time > CoinsAnimationTimer.delay)
     {
-        //printf("Color coin change\n");
         CoinsAnimationTimer.time = currentTime;
-
         CoinColor = (CoinColor == 0) ? 1 : 0;
+    }
+    
+    if (currentTime - MapBackGroundAnimationTimer.time > MapBackGroundAnimationTimer.delay)
+    {
+        MapBackGroundAnimationTimer.time = currentTime;
+
+        if(AlphaMapIterSide == 0)
+        {
+            AlphaMapIter++;
+            if(AlphaMapIter == 2)
+            {
+                AlphaMapIterSide = 1;
+            }
+        }
+        else if(AlphaMapIterSide == 1)
+        {
+            AlphaMapIter--;
+            if(AlphaMapIter == 0)
+            {
+                AlphaMapIterSide = 0;
+            }
+        }
+        //printf("AlphaMapIter: %d\n", AlphaMapIter);
+        
     }
 
 
     for(new screenNumber = 0; screenNumber<3; screenNumber++)
     {
         GFX_setRenderTarget(screenNumber);
-
-        GFX_drawBakedImage([120, 120], 0xFF, 0x0, 0, MIRROR_BLANK, screenNumber);
+        
+        GFX_drawBakedImage([120, 120], BackGroundAlpha[AlphaMapIter], 0x0, 0, MIRROR_BLANK, screenNumber);
 
         DrawCoins(screenNumber);
 
@@ -87,6 +110,119 @@ SendGameOver()
 }
 
 
+BakeStaticLevelMap()
+{
+    for(new screenNumber = 0; screenNumber<3; screenNumber++)
+    {
+        GFX_bakeImage(screenNumber, SIZE_SCREEN, SIZE_SCREEN, FORMAT_RGB565);
+        GFX_clear(0xFF000000);
+        new centerX = 0;
+        new centerY = 0;
+        new rect[GFX_RECTANGLE];
+        rect.h = 20;
+        rect.w = 20;
+
+        for(new i = 0; i < 12; i++)
+        {
+            for(new j = 0; j < 12; j++)
+            {
+                if (MAP(screenNumber)(i)(j) == 1)
+                {
+                    rect.x = j * 240/12;
+                    rect.y = i * 240/12;
+                    centerX = rect.x + 10;
+                    centerY = rect.y + 10;
+                    //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 153, 000, 204));
+                    DrawCellWall(screenNumber, i, j);
+                    //GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageWall);
+                }
+
+                if (MAP(screenNumber)(i)(j) == 2)
+                {
+                    rect.x = j * 240/12;
+                    rect.y = i * 240/12;
+
+                    GFX_drawRectangle(rect, GFX_fromARGB8888(255, 000, 255, 000));
+                }
+
+                if (MAP(screenNumber)(i)(j) == 3)
+                {
+
+                    rect.x = j * 240/12;
+                    rect.y = i * 240/12;
+
+                    centerX = rect.x + 10;
+                    centerY = rect.y + 10;
+
+                    //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 137, 239, 253));
+
+                    GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageSpike);
+                }
+            }
+        }
+
+        GFX_render();
+
+    }
+}
+
+
+DrawCellWall(screenNumber, i, j)
+{
+
+    GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, ImageWallBack);
+
+    if(j == 0)
+    {
+        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 270, MIRROR_BLANK, ImageWallStick);
+    }
+    if(j == 11)
+    {
+        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 90, MIRROR_BLANK, ImageWallStick);
+    }
+    if(i == 0)
+    {
+        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, ImageWallStick);
+    }
+    if(i == 11)
+    {
+        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 180, MIRROR_BLANK, ImageWallStick);
+    }
+
+
+    if(i + 1 < SIZE_GRID_MAP)
+    {
+        if(WayIsFree(MAP(screenNumber)(i+1)(j)))
+        {
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 180, MIRROR_BLANK, ImageWallStick);
+        }
+    }
+    if(i - 1 >= 0)
+    {
+        if(WayIsFree(MAP(screenNumber)(i-1)(j)))
+        {
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, ImageWallStick);
+        }
+    }
+
+    if(j + 1 < SIZE_GRID_MAP)
+    {
+        if(WayIsFree(MAP(screenNumber)(i)(j+1)))
+        {
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 90, MIRROR_BLANK, ImageWallStick);
+        }
+    }
+    if(j - 1 >= 0)
+    {
+        if(WayIsFree(MAP(screenNumber)(i)(j-1)))
+        {
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 270, MIRROR_BLANK, ImageWallStick);
+        }
+    }
+
+}
+
+
 
 InitLevelMap(LEVEL)
 {
@@ -108,16 +244,16 @@ InitLevelMap(LEVEL)
             /// MODULE 0 ////////////////////////////////////////////////////////////////////////////////////
             [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 4, 4, 4, 4, 4, 4, 4, 1, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 0, 1],
-            [1, 4, 4, 4, 4, 4, 4, 1, 4, 1, 0, 1],
-            [1, 4, 1, 1, 0, 1, 4, 1, 4, 1, 0, 1],
-            [1, 4, 0, 0, 0, 1, 4, 1, 4, 1, 0, 1],
-            [1, 4, 4, 4, 4, 4, 4, 4, 4, 1, 0, 1],
-            [1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 0, 1],
-            [4, 4, 4, 4, 4, 4, 4, 4, 1, 0, 0, 1],
-            [0, 0, 0, 1, 1, 1, 1, 4, 1, 0, 0, 1],
-            [4, 4, 4, 4, 4, 4, 4, 4, 1, 0, 0, 1],
+            [1, 1, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1],
+            [1, 4, 4, 4, 4, 4, 4, 1, 4, 1, 1, 1],
+            [1, 4, 1, 1, 0, 1, 4, 1, 4, 1, 1, 1],
+            [1, 4, 0, 0, 0, 1, 4, 1, 4, 1, 1, 1],
+            [1, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1],
+            [4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1],
+            [0, 0, 0, 1, 1, 1, 1, 4, 1, 1, 1, 1],
+            [4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
 
@@ -311,16 +447,16 @@ InitLevelMap(LEVEL)
 
             [
             [1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 4, 1],
-            [1, 0, 0, 0, 0, 0, 0, 1, 4, 1, 4, 1],
-            [1, 0, 1, 1, 1, 1, 1, 1, 4, 1, 4, 1],
-            [1, 0, 1, 4, 4, 4, 4, 4, 4, 1, 4, 1],
-            [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 4, 1],
-            [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 4, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 4, 1],
+            [1, 1, 1, 4, 4, 4, 4, 4, 4, 1, 4, 1],
+            [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 4, 1],
+            [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 4, 1],
             [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 4, 1],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1],
             [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
 
@@ -397,9 +533,9 @@ InitLevelMap(LEVEL)
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
             [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1],
             [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
 
@@ -1265,68 +1401,8 @@ InitLevelMap(LEVEL)
         MODULES_MAP = MODULES_MAP_3;
     }
 
+    BakeStaticLevelMap();
 
-    for(new screenNumber = 0; screenNumber<3; screenNumber++)
-    {
-        GFX_bakeImage(screenNumber, SIZE_SCREEN, SIZE_SCREEN, FORMAT_RGB565);
-        GFX_clear(0xFF000000);
-        new centerX = 0;
-        new centerY = 0;
-
-        for(new i = 0; i < 12; i++)
-        {
-            for(new j = 0; j < 12; j++)
-            {
-                if (MAP(screenNumber)(i)(j) == 1)
-                {
-                    new rect[GFX_RECTANGLE];
-                    rect.h = 20;
-                    rect.w = 20;
-
-                    rect.x = j * 240/12;
-                    rect.y = i * 240/12;
-
-                    centerX = rect.x + 10;
-                    centerY = rect.y + 10;
-                    //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 153, 000, 204));
-
-                    GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageWall);
-                }
-
-                if (MAP(screenNumber)(i)(j) == 2)
-                {
-                    new rect[GFX_RECTANGLE];
-                    rect.h = 20;
-                    rect.w = 20;
-
-                    rect.x = j * 240/12;
-                    rect.y = i * 240/12;
-
-                    GFX_drawRectangle(rect, GFX_fromARGB8888(255, 000, 255, 000));
-                }
-
-                if (MAP(screenNumber)(i)(j) == 3)
-                {
-                    new rect[GFX_RECTANGLE];
-                    rect.h = 20;
-                    rect.w = 20;
-
-                    rect.x = j * 240/12;
-                    rect.y = i * 240/12;
-
-                    centerX = rect.x + 10;
-                    centerY = rect.y + 10;
-
-                    //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 137, 239, 253));
-
-                    GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageSpike);
-                }
-            }
-        }
-
-        GFX_render();
-
-    }
 }
 
 

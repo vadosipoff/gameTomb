@@ -41,12 +41,25 @@ public ON_Init(id, size, const pkt[])
     ImageSpike = GFX_getAssetId("Spike.png");
     ImageHero = GFX_getAssetId("Tomb.png");
 
+    ImageWallStick = GFX_getAssetId("ImageWallStick.png");
+    ImageWallBack = GFX_getAssetId("ImageWallBack2.png");
+
+    HeroSprites[0] = GFX_getAssetId("tomb1.png");
+    HeroSprites[1] = GFX_getAssetId("tomb2.png");
+    HeroSprites[2] = GFX_getAssetId("tomb3.png");
+    HeroSprites[3] = GFX_getAssetId("tomb4.png");
+    HeroSprites[4] = GFX_getAssetId("tomb5.png");
+
 
     CoinColor = 0;
 
     timer.time = getTime();
-    CoinsAnimationTimer.time = getTime();
+    CoinsAnimationTimer.time = timer.time;
     CoinsAnimationTimer.delay = 200;
+    MapBackGroundAnimationTimer.time = timer.time;
+    MapBackGroundAnimationTimer.delay = 100;
+    HeroAnimationTimer.time = timer.time;
+    HeroAnimationTimer.delay = 100;
 
     currentLevel = 1;
 

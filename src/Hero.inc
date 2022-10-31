@@ -12,14 +12,15 @@ HeroLogic()
         HeroPreviosGridPos.yPos = HeroRect.y / 20;
         if (!HeroMoveStatus)
         {
+            new Dir = 0;
             new AccelX = MS_getFaceAccelX(HeroFacelet.screen);
             new AccelY = MS_getFaceAccelY(HeroFacelet.screen);
         
-            Direction = (ABS(AccelX) > ABS(AccelY)) ? DIRECTION_X : DIRECTION_Y;
+            Dir = (ABS(AccelX) > ABS(AccelY)) ? DIRECTION_X : DIRECTION_Y;
             new Accel = (ABS(AccelX) > ABS(AccelY)) ? AccelX : AccelY;
+            
 
-
-            chekHeroMovingWay(Direction, Accel);
+            chekHeroMovingWay(Dir, Accel);
 
         }
         else
@@ -129,10 +130,11 @@ WayIsFree(Cell)
 
 chekHeroMovingWay(DirectionF, Accel)
 {
-    Direction = DirectionF;
+    //Direction = DirectionF;
     if (ABS(Accel) > MIN_ACCEL) 
     {
-
+        Direction = DirectionF;
+        ViewAxis = Accel;
         if (Direction == DIRECTION_X && Accel > 0)
         {
 
@@ -388,7 +390,58 @@ DrawHero(screenNumber)
 {
     new centerX = HeroRect.x + 10;
     new centerY = HeroRect.y + 10;
+    new Angle;
+    new Mirror = MIRROR_BLANK;
 
-    GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageHero);
-    //GFX_drawRectangle(HeroRect, GFX_fromARGB8888(255,255,255,000));
+
+    if(!HeroMoveStatus)
+    {
+        switch (Direction)
+        {
+            case DIRECTION_X:
+            {
+                if(ViewAxis > 0)
+                {
+                    Angle = 270;
+                }
+                else if (ViewAxis < 0)
+                {
+                    Angle = 90;
+                }
+            }
+            case DIRECTION_Y:
+            {
+                if(ViewAxis > 0)
+                {
+                    Angle = 0;
+                }
+                else if (ViewAxis < 0)
+                {
+                    Angle = 180;
+                }
+            }
+        }
+
+
+        if (currentTime - HeroAnimationTimer.time > HeroAnimationTimer.delay)
+        {
+            HeroAnimationTimer.time = currentTime;
+
+            if(HeroAnimIter == 4)
+            {
+                HeroAnimIter = 0;
+            }
+            HeroAnimIter++;
+
+        }
+
+      
+        //printf("Angle = %d, Mirror: %d\n", Angle, Mirror);
+        GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
+        
+    }
+    else
+    {
+        GFX_drawSolidCircleXY(centerX, centerY , 8, 0xFFFFFF00);
+    }
 }

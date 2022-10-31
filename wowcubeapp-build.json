@@ -44,16 +44,44 @@
       "alias": "Spike.png"
     },
     {
-      "path": "assets/images/Tomb.png",
-      "alias": "Tomb.png"
-    },
-    {
       "path": "assets/images/Wall4.png",
       "alias": "Wall4.png"
     },
     {
       "path": "assets/images/Wall5.png",
       "alias": "Wall5.png"
+    },
+    {
+      "path": "assets/images/ImageWallStick.png",
+      "alias": "ImageWallStick."
+    },
+    {
+      "path": "assets/images/ImageWallBack.png",
+      "alias": "ImageWallBack.p"
+    },
+    {
+      "path": "assets/images/ImageWallBack2.png",
+      "alias": "ImageWallBack2."
+    },
+    {
+      "path": "assets/images/tomb1.png",
+      "alias": "tomb1.png"
+    },
+    {
+      "path": "assets/images/tomb2.png",
+      "alias": "tomb2.png"
+    },
+    {
+      "path": "assets/images/tomb3.png",
+      "alias": "tomb3.png"
+    },
+    {
+      "path": "assets/images/tomb4.png",
+      "alias": "tomb4.png"
+    },
+    {
+      "path": "assets/images/tomb5.png",
+      "alias": "tomb5.png"
     }
   ],
   "soundAssets": []
