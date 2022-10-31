@@ -4,7 +4,7 @@
 #include "motion_sensor.inc"
 #include "math.inc"
 
-
+#define GAME_VERSION "v0.0.9"
 
 #define SIZE_SCREEN 240
 #define MODULE_MAX 8

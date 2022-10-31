@@ -48,6 +48,8 @@ DrawGame()
             DrawHero();
         }
 
+
+        GFX_drawText([200, 230], 4, 0, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, GAME_VERSION);
         GFX_render();
 
     }
