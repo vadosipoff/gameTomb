@@ -1,0 +1,14 @@
+# Build artefacts
+/build/
+/binary/
+/flash/
+/wowcubeapp-build.json
+
+# Pawn
+*.amx
+
+#VSCode artefacts
+/.vscode/*
+!/.vscode/extensions.json
+!/.vscode/launch.json
+!/.vscode/tasks.json
