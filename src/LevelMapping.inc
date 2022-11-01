@@ -17,7 +17,7 @@ DrawGame()
         if(AlphaMapIterSide == 0)
         {
             AlphaMapIter++;
-            if(AlphaMapIter == 2)
+            if(AlphaMapIter == 4)
             {
                 AlphaMapIterSide = 1;
             }
@@ -86,8 +86,8 @@ DrawFinishPoint()
 
     for(new i = 0; i < 5; i++)
     {
-        rectF[0].h = 0;
-        rectF[0].w = 0;
+        rectF[0].h = 20 - i*step;
+        rectF[0].w = 20 - i*step;
     }
 
     if (MAP(screenNumber)(i)(j) == 2)

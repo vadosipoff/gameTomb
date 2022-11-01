@@ -57,7 +57,7 @@ public ON_Init(id, size, const pkt[])
     CoinsAnimationTimer.time = timer.time;
     CoinsAnimationTimer.delay = 200;
     MapBackGroundAnimationTimer.time = timer.time;
-    MapBackGroundAnimationTimer.delay = 100;
+    MapBackGroundAnimationTimer.delay = 200;
     HeroAnimationTimer.time = timer.time;
     HeroAnimationTimer.delay = 100;
 
