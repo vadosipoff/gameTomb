@@ -60,7 +60,10 @@ public ON_Init(id, size, const pkt[])
     MapBackGroundAnimationTimer.delay = 200;
     HeroAnimationTimer.time = timer.time;
     HeroAnimationTimer.delay = 100;
+    FinishAnimationTimer.time = timer.time;
+    FinishAnimationTimer.delay = 200;
 
+    IsInitialization = false;
     currentLevel = 1;
 
     GameStatus = e_GAME_STATUS_MENU;
@@ -163,8 +166,13 @@ public ON_Message(const pkt[MESSAGE_SIZE])
 
         case e_MESSAGE_LEVEL_INIT:
         {
-            IsInitialization = true;
-            InitLevelMap(currentLevel);
+            if(parseByte(pkt, 4) != LevelInitPacket)
+            {
+                LevelInitPacket = parseByte(pkt, 4);
+                IsInitialization = true;
+                InitLevelMap(currentLevel);
+            }
+            
         }
 
         case e_MESSAGE_LEVEL_INIT_COMPLETE:
@@ -187,14 +195,18 @@ public ON_Message(const pkt[MESSAGE_SIZE])
                         }
                     }
 
+                    printf("SELF_ID = %d, SOURCE = %d\n", SELF_ID, parseByte(pkt, 3));
+                    printf("modules_redy = %d\n", modules_redy);
+
                     if(modules_redy == 8)
                     {
+                        printf("StartEvent\n");
                         SendStartEvent();
                     }
                 }
 
             }
-            SendStartEvent();
+        
             GameStatus = e_GAME_STATUS_GAME;
             IsInitialization = false;
         }
@@ -267,12 +279,12 @@ public ON_Tap(const count, const display, const bool:opposite)
     {
         case e_GAME_STATUS_MENU:
         {
-            if(count == 2)
+            if(count == 2 && SELF_ID == 0)
             {
                 if(!IsInitialization)
                 {
-                    IsInitialization = true;
                     SendLevelInit();
+                    InitLevelMap(currentLevel);
                 }
 
             }

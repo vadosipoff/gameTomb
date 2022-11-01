@@ -33,6 +33,13 @@ DrawGame()
         //printf("AlphaMapIter: %d\n", AlphaMapIter);
         
     }
+    if (currentTime - FinishAnimationTimer.time > FinishAnimationTimer.delay)
+    {
+        FinishAnimationTimer.time = currentTime;
+        new bufColor = FinishColors[0];
+        FinishColors[0] = FinishColors[1];
+        FinishColors[1] = bufColor;
+    }
 
 
     for(new screenNumber = 0; screenNumber<3; screenNumber++)
@@ -42,6 +49,7 @@ DrawGame()
         GFX_drawBakedImage([120, 120], BackGroundAlpha[AlphaMapIter], 0x0, 0, MIRROR_BLANK, screenNumber);
 
         DrawCoins(screenNumber);
+        DrawFinishPoint(screenNumber);
 
         if(SELF_ID == HeroFacelet.module && screenNumber == HeroFacelet.screen)
         {
@@ -78,25 +86,44 @@ DrawCoins(screenNumber)
 
 }
 
-DrawFinishPoint()
+DrawFinishPoint(screenNumber)
 {
-    new rectF[5][GFX_RECTANGLE];
-
-    new step = 3;
-
-    for(new i = 0; i < 5; i++)
+    if(FinishFacelet.module == SELF_ID && FinishFacelet.screen == screenNumber)
     {
-        rectF[0].h = 20 - i*step;
-        rectF[0].w = 20 - i*step;
-    }
+        new rectF[GFX_RECTANGLE];
 
-    if (MAP(screenNumber)(i)(j) == 2)
-    {
-        rect.x = j * 240/12;
-        rect.y = i * 240/12;
+        new step = 4;
+        new color;
+        for(new i = 0; i < 5; i++)
+        {
+            rectF.h = 20 - i*step;
+            rectF.w = 20 - i*step;
+            rectF.x = FinishGridPos.xPos * SIZE_SCREEN/SIZE_GRID_MAP + (20 - rectF.w)/2;
+            rectF.y = FinishGridPos.yPos * SIZE_SCREEN/SIZE_GRID_MAP + (20 - rectF.h)/2;
 
-        GFX_drawRectangle(rect, GFX_fromARGB8888(255, 000, 255, 000));
+
+            if (i == 0)
+            {
+                color = 0xFFFFFF00;
+            }
+            else
+            {
+                if((i % 2) == 0)
+                {
+                    color = FinishColors[0];
+                }
+                else
+                {
+                    color = FinishColors[1];
+                }
+            }
+            
+
+            GFX_drawRectangle(rectF, color);
+        }
+
     }
+    
 }
 
 
@@ -178,6 +205,8 @@ SendGameOver()
 
 BakeStaticLevelMap()
 {
+    FinishFacelet.module = -1;
+    FinishFacelet.screen = -1;
     for(new screenNumber = 0; screenNumber<3; screenNumber++)
     {
         GFX_bakeImage(screenNumber, SIZE_SCREEN, SIZE_SCREEN, FORMAT_RGB565);
@@ -205,10 +234,10 @@ BakeStaticLevelMap()
 
                 if (MAP(screenNumber)(i)(j) == 2)
                 {
-                    rect.x = j * 240/12;
-                    rect.y = i * 240/12;
-
-                    GFX_drawRectangle(rect, GFX_fromARGB8888(255, 000, 255, 000));
+                    FinishFacelet.module = SELF_ID;
+                    FinishFacelet.screen = screenNumber;
+                    FinishGridPos.xPos = j;
+                    FinishGridPos.yPos = i;
                 }
 
                 if (MAP(screenNumber)(i)(j) == 3)

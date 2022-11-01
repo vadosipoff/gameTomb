@@ -34,6 +34,8 @@ new currentTime = 0;
 new deltaTime = 0;
 
 
+
+
 new CoinsColors[2] = [0xFFFFFF00, 0xFF78DBE2];
 new CoinColor;
 
@@ -41,6 +43,7 @@ new timer[.delay, .time];
 new HeroAnimationTimer[.delay, .time];
 new CoinsAnimationTimer[.delay, .time];
 new MapBackGroundAnimationTimer[.delay, .time];
+new FinishAnimationTimer[.delay, .time];
 
 new ImageWall;
 new ImageSpike;
@@ -61,6 +64,11 @@ new HeroPreviosGridPos[.xPos, .yPos];
 new HeroGridTargetPos[.xPos, .yPos]; // Hero target position at grid
 new HeroFacelet[TOPOLOGY_FACELET]; // Hero facelet - module and screen
 new HeroRect[GFX_RECTANGLE]; // hero sprite rect
+
+
+new FinishFacelet[TOPOLOGY_FACELET]
+new FinishGridPos[.xPos, .yPos];
+new FinishColors[2] = [0xFFFFFF00, 0xFF000000]
 
 new bool: HeroMoveStatus = false; // hero move status move and static
 new Direction; // direction of moving hero
