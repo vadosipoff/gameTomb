@@ -258,6 +258,7 @@ MoveHero()
                 HeroRect.x = HeroGridTargetPos.xPos*20;
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
                 //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos + 1);
+                HeroMoveStatus = false;
                 if(HeroGridPos.xPos == 0)
                 {
                     //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
@@ -267,7 +268,7 @@ MoveHero()
                 {
                     chekSpickeGameOver(Direction, -1);
                 }
-                HeroMoveStatus = false;
+                //HeroMoveStatus = false;
             }
         }
     }
@@ -304,6 +305,7 @@ MoveHero()
                 HeroRect.y = HeroGridTargetPos.yPos*20;
                 HeroGridPos.yPos = HeroGridTargetPos.yPos;
                 //CollectCoin(HeroGridPos.yPos + 1, HeroGridPos.xPos);
+                HeroMoveStatus = false;
                 if(HeroGridPos.yPos == 0)
                 {
                     //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos);
@@ -313,7 +315,7 @@ MoveHero()
                 {
                     chekSpickeGameOver(Direction, -1);
                 }
-                HeroMoveStatus = false;
+                //HeroMoveStatus = false;
             }
         }
     }
@@ -330,6 +332,7 @@ chekSpickeGameOver(Direction, AxisDir)
             if(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(HeroGridPos.xPos+AxisDir) == 3)
             {
                 //printf("Game Over \n");
+                HeroMoveStatus = false;
                 SendGameOver();
             }
         }
@@ -339,6 +342,7 @@ chekSpickeGameOver(Direction, AxisDir)
             if(MAP(HeroFacelet.screen)(HeroGridPos.yPos+AxisDir)(HeroGridPos.xPos) == 3)
             {
                 //printf("Game Over \n");
+                HeroMoveStatus = false;
                 SendGameOver();
             }
         }
@@ -359,17 +363,26 @@ chekWallAtNeighbor(MOVE_FLAG, GridxPos, GridyPos, HeroFacelet[TOPOLOGY_FACELET])
             neighbor = TOPOLOGY_getAdjacentFacelet(HeroFacelet, NEIGHBOR_TOP);
     }
 
-    if (WayIsFree(MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos]))
+    if(neighbor.connected)
     {
-        HeroFacelet.module = neighbor.module;
-        HeroFacelet.screen = neighbor.screen;
+        if (WayIsFree(MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos]))
+        {
+            HeroFacelet.module = neighbor.module;
+            HeroFacelet.screen = neighbor.screen;
 
-        MoveHeroToNeighbor(neighbor.module, MOVE_FLAG, neighbor.screen, HeroGridPos.xPos, HeroGridPos.yPos);
+            MoveHeroToNeighbor(neighbor.module, MOVE_FLAG, neighbor.screen, HeroGridPos.xPos, HeroGridPos.yPos);
+        }
+        if (MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos] == 3)
+        {
+            SendGameOver();
+        }
+        HeroMoveStatus = false;
     }
-    if (MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos] == 3)
+    else
     {
-        SendGameOver();
+        HeroMoveStatus = true;
     }
+  
   
 }
 

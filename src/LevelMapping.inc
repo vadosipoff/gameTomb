@@ -10,29 +10,30 @@ DrawGame()
         CoinColor = (CoinColor == 0) ? 1 : 0;
     }
     
-    if (currentTime - MapBackGroundAnimationTimer.time > MapBackGroundAnimationTimer.delay)
-    {
-        MapBackGroundAnimationTimer.time = currentTime;
+    // if (currentTime - MapBackGroundAnimationTimer.time > MapBackGroundAnimationTimer.delay)
+    // {
+    //     MapBackGroundAnimationTimer.time = currentTime;
 
-        if(AlphaMapIterSide == 0)
-        {
-            AlphaMapIter++;
-            if(AlphaMapIter == 4)
-            {
-                AlphaMapIterSide = 1;
-            }
-        }
-        else if(AlphaMapIterSide == 1)
-        {
-            AlphaMapIter--;
-            if(AlphaMapIter == 0)
-            {
-                AlphaMapIterSide = 0;
-            }
-        }
-        //printf("AlphaMapIter: %d\n", AlphaMapIter);
+    //     if(AlphaMapIterSide == 0)
+    //     {
+    //         AlphaMapIter++;
+    //         if(AlphaMapIter == 4)
+    //         {
+    //             AlphaMapIterSide = 1;
+    //         }
+    //     }
+    //     else if(AlphaMapIterSide == 1)
+    //     {
+    //         AlphaMapIter--;
+    //         if(AlphaMapIter == 0)
+    //         {
+    //             AlphaMapIterSide = 0;
+    //         }
+    //     }
+    //     //printf("AlphaMapIter: %d\n", AlphaMapIter);
         
-    }
+    // }
+
     if (currentTime - FinishAnimationTimer.time > FinishAnimationTimer.delay)
     {
         FinishAnimationTimer.time = currentTime;
