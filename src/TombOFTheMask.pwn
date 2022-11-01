@@ -155,14 +155,54 @@ public ON_Message(const pkt[MESSAGE_SIZE])
             GameStatus = e_GAME_STATUS_WIN;
             
         }
+
         case e_MESSAGE_GAMEOVER:
         {
             GameStatus = e_GAME_STATUS_GAMEOVER;
         }
-        case e_MESSAGE_STARTEVENT:
+
+        case e_MESSAGE_LEVEL_INIT:
         {
+            IsInitialization = true;
             InitLevelMap(currentLevel);
+        }
+
+        case e_MESSAGE_LEVEL_INIT_COMPLETE:
+        {
+            if(SELF_ID == parseByte(pkt, 1))
+            {
+                if(parseByte(pkt, 4) != recvPacketIndex[parseByte(pkt, 3)])
+                {
+                    recvPacketIndex[parseByte(pkt, 3)] = parseByte(pkt, 4);
+
+                    LEVEL_MODULE_INIT[parseByte(pkt, 3)] = 1;
+
+                    new modules_redy = 0;
+
+                    for(new i = 0; i < 8; i++)
+                    {
+                        if(LEVEL_MODULE_INIT[i] == 1)
+                        {
+                            modules_redy++;
+                        }
+                    }
+
+                    if(modules_redy == 8)
+                    {
+                        SendStartEvent();
+                    }
+                }
+
+            }
+            SendStartEvent();
             GameStatus = e_GAME_STATUS_GAME;
+            IsInitialization = false;
+        }
+
+        case e_MESSAGE_EVENT_START:
+        {
+            GameStatus = e_GAME_STATUS_GAME;
+            IsInitialization = false;
         }
 
     }
@@ -229,15 +269,21 @@ public ON_Tap(const count, const display, const bool:opposite)
         {
             if(count == 2)
             {
-                InitLevelMap(currentLevel);
-                SendStartEvent();
+                if(!IsInitialization)
+                {
+                    IsInitialization = true;
+                    SendLevelInit();
+                }
+
             }
 
         }
 
         case e_GAME_STATUS_GAME:
         {
+
         }
+
     }
     printf("Screen: %d\n", display);
 }

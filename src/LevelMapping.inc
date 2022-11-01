@@ -78,6 +78,27 @@ DrawCoins(screenNumber)
 
 }
 
+DrawFinishPoint()
+{
+    new rectF[5][GFX_RECTANGLE];
+
+    new step = 3;
+
+    for(new i = 0; i < 5; i++)
+    {
+        rectF[0].h = 0;
+        rectF[0].w = 0;
+    }
+
+    if (MAP(screenNumber)(i)(j) == 2)
+    {
+        rect.x = j * 240/12;
+        rect.y = i * 240/12;
+
+        GFX_drawRectangle(rect, GFX_fromARGB8888(255, 000, 255, 000));
+    }
+}
+
 
 chekWictoryOrGameOver()
 {
@@ -105,10 +126,44 @@ chekWictoryOrGameOver()
 SendStartEvent()
 {
     new data[MESSAGE_SIZE] = [0, ...];
-    data[0] = (e_MESSAGE_STARTEVENT << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+
+    data[0] = (e_MESSAGE_EVENT_START << 0) | (0 << 8) | (0 << 16) | (SELF_ID << 24);
+    data[1] = (0 << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+
     broadcastMessage(data);
-    //currentLevel +=1;
-    GameStatus = e_GAME_STATUS_GAME;
+}
+
+SendCompleteLevelInit()
+{
+    new data[MESSAGE_SIZE] = [0, ...];
+
+    if(SELF_ID == 0)
+    {
+        LEVEL_MODULE_INIT[SELF_ID] = 1;
+    }
+    else
+    {
+        new MODULE_DEST = 0;
+
+        sendPacketIndex[MODULE_DEST] += 1;
+
+        data[0] = (e_MESSAGE_LEVEL_INIT_COMPLETE << 0) | (MODULE_DEST << 8) | (0 << 16) | (SELF_ID << 24);
+        data[1] = (sendPacketIndex[MODULE_DEST] << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+
+        broadcastMessage(data);
+    }
+}
+
+SendLevelInit()
+{
+    new data[MESSAGE_SIZE] = [0, ...];
+  
+    LevelInitPacket += 1;
+
+    data[0] = (e_MESSAGE_LEVEL_INIT << 0) | (0 << 8) | (0 << 16) | (SELF_ID << 24);
+    data[1] = (LevelInitPacket << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+
+    broadcastMessage(data);
 }
 
 SendGameOver()
@@ -1413,6 +1468,7 @@ InitLevelMap(LEVEL)
     }
 
     BakeStaticLevelMap();
+    SendCompleteLevelInit();
 
 }
 

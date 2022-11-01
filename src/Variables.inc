@@ -68,12 +68,17 @@ new Direction; // direction of moving hero
 
 const e_MESSAGES_FLAG:{
     e_MESSAGE_MOVE_HERO_MTM = 0,
-    e_MESSAGE_STARTEVENT,
+    e_MESSAGE_LEVEL_INIT,
+    e_MESSAGE_LEVEL_INIT_COMPLETE,
+    e_MESSAGE_EVENT_START,
     e_MESSAGE_WICTORY,
     e_MESSAGE_GAMEOVER,
     e_MESSAGE_MAX
 }
 
+new LEVEL_MODULE_INIT[8] = [0, ...];
+new LevelInitPacket = 0;
+new bool: IsInitialization = false;
 
 new currentLevel;
 
