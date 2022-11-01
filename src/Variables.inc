@@ -68,6 +68,7 @@ new Direction; // direction of moving hero
 
 const e_MESSAGES_FLAG:{
     e_MESSAGE_MOVE_HERO_MTM = 0,
+    e_MESSAGE_STARTEVENT,
     e_MESSAGE_WICTORY,
     e_MESSAGE_GAMEOVER,
     e_MESSAGE_MAX

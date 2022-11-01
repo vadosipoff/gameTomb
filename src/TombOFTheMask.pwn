@@ -159,6 +159,12 @@ public ON_Message(const pkt[MESSAGE_SIZE])
         {
             GameStatus = e_GAME_STATUS_GAMEOVER;
         }
+        case e_MESSAGE_STARTEVENT:
+        {
+            InitLevelMap(currentLevel);
+            GameStatus = e_GAME_STATUS_GAME;
+        }
+
     }
 
 }
@@ -224,7 +230,7 @@ public ON_Tap(const count, const display, const bool:opposite)
             if(count == 2)
             {
                 InitLevelMap(currentLevel);
-                GameStatus = e_GAME_STATUS_GAME;
+                SendStartEvent();
             }
 
         }

@@ -102,6 +102,15 @@ chekWictoryOrGameOver()
 
 }
 
+SendStartEvent()
+{
+    new data[MESSAGE_SIZE] = [0, ...];
+    data[0] = (e_MESSAGE_STARTEVENT << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+    broadcastMessage(data);
+    //currentLevel +=1;
+    GameStatus = e_GAME_STATUS_GAME;
+}
+
 SendGameOver()
 {
     new data[MESSAGE_SIZE] = [0, ...];
