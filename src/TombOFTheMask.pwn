@@ -15,7 +15,7 @@
 #include "motion_sensor.inc"
 #include "math.inc"
 #include "console.inc"
-
+#include "fixed.inc"
 
 
 
@@ -87,7 +87,10 @@ public ON_Tick()
         }
         case e_GAME_STATUS_GAME:
         {
-            HeroLogic();
+            if(!IsFinish)
+            {
+                HeroLogic();
+            }
             DrawGame();
         }
         case e_GAME_STATUS_WIN:
@@ -201,7 +204,7 @@ public ON_Message(const pkt[MESSAGE_SIZE])
                     if(modules_redy == 8)
                     {
                         printf("StartEvent\n");
-                        SendStartEvent();
+                        SendEvent(e_MESSAGE_EVENT_START);
                     }
                 }
 
@@ -283,7 +286,7 @@ public ON_Tap(const count, const display, const bool:opposite)
             {
                 if(!IsInitialization)
                 {
-                    SendLevelInit();
+                    SendEvent(e_MESSAGE_LEVEL_INIT);
                     InitLevelMap(currentLevel);
                 }
 

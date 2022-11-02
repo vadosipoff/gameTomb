@@ -4,7 +4,7 @@
 #include "motion_sensor.inc"
 #include "math.inc"
 
-#define GAME_VERSION "v0.0.12"
+#define GAME_VERSION "v0.0.13"
 
 #define SIZE_SCREEN 240
 #define MODULE_MAX 8
@@ -32,6 +32,7 @@ new recvPacketIndex[8];
 new previousTime = 0;
 new currentTime = 0;
 new deltaTime = 0;
+
 
 
 
@@ -66,9 +67,12 @@ new HeroFacelet[TOPOLOGY_FACELET]; // Hero facelet - module and screen
 new HeroRect[GFX_RECTANGLE]; // hero sprite rect
 
 
-new FinishFacelet[TOPOLOGY_FACELET]
+new FinishFacelet[TOPOLOGY_FACELET];
 new FinishGridPos[.xPos, .yPos];
-new FinishColors[2] = [0xFFFFFF00, 0xFF000000]
+new FinishColors[2] = [0xFFFFFF00, 0xFF000000];
+new bool: IsFinish = false;
+#define FINISH_SCENE_TIME 1000
+new FinishAnimationScene = FINISH_SCENE_TIME;
 
 new bool: HeroMoveStatus = false; // hero move status move and static
 new Direction; // direction of moving hero

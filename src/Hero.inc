@@ -322,6 +322,36 @@ MoveHero()
     chekWictoryOrGameOver();
 }
 
+chekWictoryOrGameOver()
+{
+    //printf("HeroScreen: %d, HeroGridPos.yPos: %d, HeroGridPos.xPos: %d\n", HeroFacelet.screen, HeroGridPos.yPos, HeroGridPos.xPos);
+    // switch(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(HeroGridPos.xPos))
+    // {
+    //     case 2:
+    //     {
+    //         new data[MESSAGE_SIZE] = [0, ...];
+
+    //         data[0] = (e_MESSAGE_WICTORY << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+    //         broadcastMessage(data);
+    //         //currentLevel +=1;
+    //         GameStatus = e_GAME_STATUS_WIN;
+
+    //     }
+    //     case 3:
+    //     {
+            
+    //     }
+    // }
+
+    if(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(HeroGridPos.xPos) == 2)
+    {
+        printf("is finish\n");
+        IsFinish = true;
+
+    }
+
+}
+
 
 chekSpickeGameOver(Direction, AxisDir)
 {
@@ -333,7 +363,7 @@ chekSpickeGameOver(Direction, AxisDir)
             {
                 //printf("Game Over \n");
                 HeroMoveStatus = false;
-                SendGameOver();
+                SendEvent(e_MESSAGE_GAMEOVER);
             }
         }
 
@@ -343,7 +373,7 @@ chekSpickeGameOver(Direction, AxisDir)
             {
                 //printf("Game Over \n");
                 HeroMoveStatus = false;
-                SendGameOver();
+                SendEvent(e_MESSAGE_GAMEOVER);
             }
         }
     }
@@ -374,7 +404,7 @@ chekWallAtNeighbor(MOVE_FLAG, GridxPos, GridyPos, HeroFacelet[TOPOLOGY_FACELET])
         }
         if (MODULES_MAP[neighbor.module * SCREEN_MAX + neighbor.screen][HeroGridPos.xPos][HeroGridPos.yPos] == 3)
         {
-            SendGameOver();
+            SendEvent(e_MESSAGE_GAMEOVER);
         }
         HeroMoveStatus = false;
     }
@@ -409,51 +439,78 @@ DrawHero(screenNumber)
 
     if(!HeroMoveStatus)
     {
-        switch (Direction)
+        if(!IsFinish)
         {
-            case DIRECTION_X:
+            switch (Direction)
             {
-                if(ViewAxis > 0)
+                case DIRECTION_X:
                 {
-                    Angle = 270;
+                    if(ViewAxis > 0)
+                    {
+                        Angle = 270;
+                    }
+                    else if (ViewAxis < 0)
+                    {
+                        Angle = 90;
+                    }
                 }
-                else if (ViewAxis < 0)
+                case DIRECTION_Y:
                 {
-                    Angle = 90;
+                    if(ViewAxis > 0)
+                    {
+                        Angle = 0;
+                    }
+                    else if (ViewAxis < 0)
+                    {
+                        Angle = 180;
+                    }
                 }
             }
-            case DIRECTION_Y:
+
+
+            if (currentTime - HeroAnimationTimer.time > HeroAnimationTimer.delay)
             {
-                if(ViewAxis > 0)
+                HeroAnimationTimer.time = currentTime;
+
+                if(HeroAnimIter == 4)
                 {
-                    Angle = 0;
+                    HeroAnimIter = 0;
                 }
-                else if (ViewAxis < 0)
-                {
-                    Angle = 180;
-                }
+                HeroAnimIter++;
+
             }
-        }
 
-
-        if (currentTime - HeroAnimationTimer.time > HeroAnimationTimer.delay)
-        {
-            HeroAnimationTimer.time = currentTime;
-
-            if(HeroAnimIter == 4)
-            {
-                HeroAnimIter = 0;
-            }
-            HeroAnimIter++;
-
-        }
-
-      
-        //printf("Angle = %d, Mirror: %d\n", Angle, Mirror);
-        GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
         
+            //printf("Angle = %d, Mirror: %d\n", Angle, Mirror);
+            GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
+        }
+        else
+        {
+            printf("IsFinish\n");
+            if(FinishAnimationScene > 0)
+            {
+                FinishAnimationScene -= deltaTime;
+                new Fixed: percent = 0;
+                // percent = fdiv(fixed(FinishAnimationScene),fixed(FINISH_SCENE_TIME));
+                percent = fdiv(FinishAnimationScene, FINISH_SCENE_TIME);
+                //printf("percent = %q\n", percent);
+                new  size = fint(10*percent);
+                printf("size = %d\n", size);
+                GFX_drawSolidCircleXY(centerX, centerY , size, 0xFF78DBE2);
+            }
+            else
+            {
+                FinishAnimationScene = FINISH_SCENE_TIME;
+                IsFinish = false;
+
+                SendEvent(e_MESSAGE_WICTORY);
+                GameStatus = e_GAME_STATUS_WIN;
+
+            }
+        }
+
     }
-    else
+    else 
     {
         GFX_drawSolidCircleXY(centerX, centerY , 8, 0xFFFFFF00);
     }

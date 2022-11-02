@@ -128,79 +128,56 @@ DrawFinishPoint(screenNumber)
 }
 
 
-chekWictoryOrGameOver()
+SendEvent(e_MESSAGE_EVENT)
 {
-    //printf("HeroScreen: %d, HeroGridPos.yPos: %d, HeroGridPos.xPos: %d\n", HeroFacelet.screen, HeroGridPos.yPos, HeroGridPos.xPos);
-    switch(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(HeroGridPos.xPos))
+    new data[MESSAGE_SIZE] = [0, ...];
+
+    switch(e_MESSAGE_EVENT)
     {
-        case 2:
+        case e_MESSAGE_EVENT_START:
         {
-            new data[MESSAGE_SIZE] = [0, ...];
-
-            data[0] = (e_MESSAGE_WICTORY << 0) | (0 << 8) | (0 << 16) | (0 << 24);
-            broadcastMessage(data);
-            //currentLevel +=1;
-            GameStatus = e_GAME_STATUS_WIN;
-
+            data[0] = (e_MESSAGE_EVENT_START << 0) | (0 << 8) | (0 << 16) | (SELF_ID << 24);
+            data[1] = (0 << 0) | (0 << 8) | (0 << 16) | (0 << 24);
         }
-        case 3:
+        case e_MESSAGE_LEVEL_INIT_COMPLETE:
         {
+            if(SELF_ID == 0)
+            {
+                LEVEL_MODULE_INIT[SELF_ID] = 1;
+            }
+            else
+            {
+                new MODULE_DEST = 0;
+
+                sendPacketIndex[MODULE_DEST] += 1;
+
+                data[0] = (e_MESSAGE_LEVEL_INIT_COMPLETE << 0) | (MODULE_DEST << 8) | (0 << 16) | (SELF_ID << 24);
+                data[1] = (sendPacketIndex[MODULE_DEST] << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+
+            }
+        }
+        case e_MESSAGE_LEVEL_INIT:
+        {  
+            LevelInitPacket += 1;
+
+            data[0] = (e_MESSAGE_LEVEL_INIT << 0) | (0 << 8) | (0 << 16) | (SELF_ID << 24);
+            data[1] = (LevelInitPacket << 0) | (0 << 8) | (0 << 16) | (0 << 24);
             
         }
+        case e_MESSAGE_GAMEOVER:
+        {
+            new data[MESSAGE_SIZE] = [0, ...];
+            data[0] = (e_MESSAGE_GAMEOVER << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+            //currentLevel +=1;
+            broadcastMessage(data);
+            GameStatus = e_GAME_STATUS_GAMEOVER;
+        }
+        case e_MESSAGE_WICTORY:
+        {
+            data[0] = (e_MESSAGE_WICTORY << 0) | (0 << 8) | (0 << 16) | (0 << 24);
+        }
     }
-
-}
-
-SendStartEvent()
-{
-    new data[MESSAGE_SIZE] = [0, ...];
-
-    data[0] = (e_MESSAGE_EVENT_START << 0) | (0 << 8) | (0 << 16) | (SELF_ID << 24);
-    data[1] = (0 << 0) | (0 << 8) | (0 << 16) | (0 << 24);
-
     broadcastMessage(data);
-}
-
-SendCompleteLevelInit()
-{
-    new data[MESSAGE_SIZE] = [0, ...];
-
-    if(SELF_ID == 0)
-    {
-        LEVEL_MODULE_INIT[SELF_ID] = 1;
-    }
-    else
-    {
-        new MODULE_DEST = 0;
-
-        sendPacketIndex[MODULE_DEST] += 1;
-
-        data[0] = (e_MESSAGE_LEVEL_INIT_COMPLETE << 0) | (MODULE_DEST << 8) | (0 << 16) | (SELF_ID << 24);
-        data[1] = (sendPacketIndex[MODULE_DEST] << 0) | (0 << 8) | (0 << 16) | (0 << 24);
-
-        broadcastMessage(data);
-    }
-}
-
-SendLevelInit()
-{
-    new data[MESSAGE_SIZE] = [0, ...];
-  
-    LevelInitPacket += 1;
-
-    data[0] = (e_MESSAGE_LEVEL_INIT << 0) | (0 << 8) | (0 << 16) | (SELF_ID << 24);
-    data[1] = (LevelInitPacket << 0) | (0 << 8) | (0 << 16) | (0 << 24);
-
-    broadcastMessage(data);
-}
-
-SendGameOver()
-{
-    new data[MESSAGE_SIZE] = [0, ...];
-    data[0] = (e_MESSAGE_GAMEOVER << 0) | (0 << 8) | (0 << 16) | (0 << 24);
-    broadcastMessage(data);
-    //currentLevel +=1;
-    GameStatus = e_GAME_STATUS_GAMEOVER;
 }
 
 
@@ -322,6 +299,8 @@ DrawCellWall(screenNumber, i, j)
 
 InitLevelMap(LEVEL)
 {
+    IsFinish = false;
+
     HeroFacelet.module = 0;
     HeroFacelet.screen = 0;
 
@@ -345,7 +324,7 @@ InitLevelMap(LEVEL)
             [1, 4, 4, 4, 4, 4, 4, 1, 4, 1, 1, 1],
             [1, 4, 1, 1, 0, 1, 4, 1, 4, 1, 1, 1],
             [1, 4, 0, 0, 0, 1, 4, 1, 4, 1, 1, 1],
-            [1, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1],
+            [1, 4, 4, 4, 4, 4, 4, 4, 2, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1],
             [4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1],
             [0, 0, 0, 1, 1, 1, 1, 4, 1, 1, 1, 1],
@@ -1498,7 +1477,8 @@ InitLevelMap(LEVEL)
     }
 
     BakeStaticLevelMap();
-    SendCompleteLevelInit();
+    //SendCompleteLevelInit();
+    SendEvent(e_MESSAGE_LEVEL_INIT_COMPLETE);
 
 }
 
