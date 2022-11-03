@@ -51,6 +51,7 @@ new ImageWall;
 new ImageSpike;
 new ImageWallStick;
 new ImageWallBack;
+new ImageSpikes;
 
 new BackGroundAlpha[5] = [0xFF, 0xF0, 0xE1, 0xD2, 0xC3];
 new AlphaMapIter = 0;
@@ -101,6 +102,7 @@ new MenuFace;
 new ImageStar[.empty, .flood];
 new ImageArrows;
 new ImageHero;
+
 
 new GameStatus;
 

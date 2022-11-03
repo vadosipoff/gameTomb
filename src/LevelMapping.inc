@@ -206,7 +206,7 @@ BakeStaticLevelMap()
                     centerX = rect.x + 10;
                     centerY = rect.y + 10;
                     //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 153, 000, 204));
-                    DrawCellWall(screenNumber, i, j);
+                    DrawCellWall(screenNumber, i, j, ImageWallStick);
                     //GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageWall);
                 }
 
@@ -223,13 +223,11 @@ BakeStaticLevelMap()
 
                     rect.x = j * 240/12;
                     rect.y = i * 240/12;
-
                     centerX = rect.x + 10;
                     centerY = rect.y + 10;
-
-                    //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 137, 239, 253));
-
-                    GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageSpike);
+                    //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 153, 000, 204));
+                    DrawCellWall(screenNumber, i, j, ImageSpikes);
+                    //GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageWall);
                 }
                 if (MAP(screenNumber)(i)(j) == 4)
                 {
@@ -244,7 +242,7 @@ BakeStaticLevelMap()
 }
 
 
-DrawCellWall(screenNumber, i, j)
+DrawCellWall(screenNumber, i, j, Image)
 {
 
     GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, ImageWallBack);
@@ -271,14 +269,14 @@ DrawCellWall(screenNumber, i, j)
     {
         if(WayIsFree(MAP(screenNumber)(i+1)(j)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 180, MIRROR_BLANK, ImageWallStick);
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 180, MIRROR_BLANK, Image);
         }
     }
     if(i - 1 >= 0)
     {
         if(WayIsFree(MAP(screenNumber)(i-1)(j)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, ImageWallStick);
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, Image);
         }
     }
 
@@ -286,14 +284,14 @@ DrawCellWall(screenNumber, i, j)
     {
         if(WayIsFree(MAP(screenNumber)(i)(j+1)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 90, MIRROR_BLANK, ImageWallStick);
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 90, MIRROR_BLANK, Image);
         }
     }
     if(j - 1 >= 0)
     {
         if(WayIsFree(MAP(screenNumber)(i)(j-1)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 270, MIRROR_BLANK, ImageWallStick);
+            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 270, MIRROR_BLANK, Image);
         }
     }
 

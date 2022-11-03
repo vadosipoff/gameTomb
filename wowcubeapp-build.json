@@ -82,6 +82,10 @@
     {
       "path": "assets/images/tomb5.png",
       "alias": "tomb5.png"
+    },
+    {
+      "path": "assets/images/Spikes.png",
+      "alias": "Spikes.png"
     }
   ],
   "soundAssets": []
