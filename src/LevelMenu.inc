@@ -97,24 +97,28 @@ WinScreen()
                 angle = 0;
                 GFX_drawText([120, 100], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "LEVEL %d", currentLevel);
                 GFX_drawText([120, 140], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "PASSED");
+                //GFX_drawText([120, 180], 6, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "Coins %d out of %d", CoinsNow, CoinsAtLevel);
             }
             case 1:
             {
                 angle = 270;
                 GFX_drawText([100, 120], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "LEVEL %d", currentLevel);
                 GFX_drawText([140, 120], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "PASSED");
+                //GFX_drawText([180, 120], 6, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "Coins %d out of %d", CoinsNow, CoinsAtLevel);
             }
             case 2:
             {
                 angle = 180;
                 GFX_drawText([120, 140], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "LEVEL %d", currentLevel);
                 GFX_drawText([120, 100], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "PASSED");
+                //GFX_drawText([120, 60], 6, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "Coins %d out of %d", CoinsNow, CoinsAtLevel);
             }
             case 3:
             {
                 angle = 90;
                 GFX_drawText([140, 120], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "LEVEL %d", currentLevel);
                 GFX_drawText([100, 120], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "PASSED");
+                //GFX_drawText([60, 120], 6, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "Coins %d out of %d", CoinsNow, CoinsAtLevel);
             }
 
         }

@@ -33,7 +33,8 @@ new previousTime = 0;
 new currentTime = 0;
 new deltaTime = 0;
 
-
+new CoinsAtLevel = 0;
+new CoinsNow = 0;
 
 
 
@@ -71,7 +72,7 @@ new FinishFacelet[TOPOLOGY_FACELET];
 new FinishGridPos[.xPos, .yPos];
 new FinishColors[2] = [0xFFFFFF00, 0xFF000000];
 new bool: IsFinish = false;
-#define FINISH_SCENE_TIME 1000
+#define FINISH_SCENE_TIME 2000
 new FinishAnimationScene = FINISH_SCENE_TIME;
 
 new bool: HeroMoveStatus = false; // hero move status move and static
@@ -115,6 +116,10 @@ const e_GAME_LEVEL:{
     e_GAME_LEVEL_1 = 0,
     e_GAME_LEVEL_2,
     e_GAME_LEVEL_3,
+    e_GAME_LEVEL_4,
+    e_GAME_LEVEL_5,
+    e_GAME_LEVEL_6,
+    e_GAME_LEVEL_7,
     e_GAME_LEVEL_MAX
 }
 

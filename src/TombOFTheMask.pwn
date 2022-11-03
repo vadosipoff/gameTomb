@@ -23,6 +23,7 @@
 #include "LevelMapping.inc"
 #include "Hero.inc"
 #include "LevelMenu.inc"
+#include "Variables.inc"
 
 
 
@@ -157,6 +158,8 @@ public ON_Message(const pkt[MESSAGE_SIZE])
         {
             //printf("Module %d, status Wictory\n", SELF_ID);
             //currentLevel = parseByte(pkt, 1);
+            CoinsNow = parseByte(pkt, 1);
+            CoinsAtLevel = parseByte(pkt, 2);
 
             GameStatus = e_GAME_STATUS_WIN;
             
@@ -213,7 +216,6 @@ public ON_Message(const pkt[MESSAGE_SIZE])
             GameStatus = e_GAME_STATUS_GAME;
             IsInitialization = false;
         }
-
         case e_MESSAGE_EVENT_START:
         {
             GameStatus = e_GAME_STATUS_GAME;
@@ -247,7 +249,10 @@ public ON_Twist(twist[TOPOLOGY_TWIST_INFO])
 
         case e_GAME_STATUS_WIN:
         {
-            currentLevel +=1;
+            if(currentLevel < e_GAME_LEVEL_MAX)
+            {
+                currentLevel++;
+            }
             GameStatus = e_GAME_STATUS_MENU;
         }
 

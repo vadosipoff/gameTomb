@@ -102,6 +102,7 @@ CollectCoin(yPos, xPos)
     if (MAP(HeroFacelet.screen)(yPos)(xPos) == 4)
     {
         MAP(HeroFacelet.screen)(yPos)(xPos) = 0;
+        CoinsNow += 1;
     }
  
 }
