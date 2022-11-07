@@ -53,6 +53,12 @@ new ImageWallStick;
 new ImageWallBack;
 new ImageSpikes;
 
+
+new BigCoinsImages[4];
+new BigCoinAnimationMiror;
+new BigCoinsAnimationIter;
+new BigCoinsAnimationIterSide;
+
 new BackGroundAlpha[5] = [0xFF, 0xF0, 0xE1, 0xD2, 0xC3];
 new AlphaMapIter = 0;
 new AlphaMapIterSide = 0;

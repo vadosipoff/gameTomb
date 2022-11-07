@@ -8,6 +8,24 @@ DrawGame()
     {
         CoinsAnimationTimer.time = currentTime;
         CoinColor = (CoinColor == 0) ? 1 : 0;
+
+        if(BigCoinsAnimationIterSide == 0)
+        {
+            BigCoinsAnimationIter++;
+            if(BigCoinsAnimationIter == 3)
+            {
+                BigCoinsAnimationIterSide = 1;
+            }
+        }
+        else if(BigCoinsAnimationIterSide == 1)
+        {
+            BigCoinsAnimationIter--;
+            if(BigCoinsAnimationIter == 0)
+            {
+                BigCoinsAnimationIterSide = 0;
+            }
+        }
+        printf("BigCoinsAnimationIter = %d\n", BigCoinsAnimationIter);
     }
     
     // if (currentTime - MapBackGroundAnimationTimer.time > MapBackGroundAnimationTimer.delay)
@@ -81,6 +99,23 @@ DrawCoins(screenNumber)
                 rect.y = i * 240/12 + 8;
 
                 GFX_drawRectangle(rect, CoinsColors[CoinColor]);
+            }
+
+            if (MAP(screenNumber)(i)(j) == 5)
+            {
+                new Mirror = MIRROR_BLANK;
+                new CenterX = j * 240/12 + 10;
+                new CenterY = i * 240/12 + 10;
+                if (BigCoinsAnimationIterSide == 0)
+                {
+                    Mirror = MIRROR_BLANK;
+                }
+                else
+                {
+                    Mirror = MIRROR_X;
+                }
+                printf("Mirror = %d\n", Mirror);
+                GFX_drawImageXY(CenterX, CenterY, 0xFF, 0, 0, Mirror, BigCoinsImages[BigCoinsAnimationIter]);
             }
         }
     }
@@ -308,6 +343,13 @@ InitLevelMap(LEVEL)
 
     HeroFacelet.module = 0;
     HeroFacelet.screen = 0;
+    Direction = DIRECTION_Y;
+    ViewAxis = 20;
+
+
+    BigCoinAnimationMiror = 0;
+    BigCoinsAnimationIter = 0;
+    BigCoinsAnimationIterSide = 0;
 
     HeroRect.w = 20;
     HeroRect.h = 20
@@ -328,10 +370,10 @@ InitLevelMap(LEVEL)
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 1],
-            [1, 1, 1, 1, 4, 4, 4, 4, 0, 0, 4, 1],
+            [4, 5, 4, 5, 4, 1, 1, 4, 4, 5, 4, 1],
+            [1, 1, 1, 1, 4, 4, 5, 4, 0, 0, 4, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 4, 1],
-            [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 1],
+            [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 5, 1],
             [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 1],
             [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 4, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -2660,15 +2702,15 @@ InitLevelMap(LEVEL)
             [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 0, 0, 3, 0, 0, 0, 0, 1],
-            [4, 4, 4, 0, 0, 0, 3, 0, 0, 0, 0, 1],
+            [4, 4, 5, 0, 0, 0, 3, 0, 0, 0, 0, 1],
             [1, 1, 4, 1, 0, 0, 3, 3, 3, 3, 3, 1],
             [1, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 1, 4, 0, 0, 1, 1, 1, 0, 1, 0, 1],
-            [1, 4, 4, 0, 0, 4, 4, 4, 0, 0, 0, 1],
+            [1, 4, 4, 0, 0, 4, 4, 5, 0, 0, 0, 1],
             [1, 4, 4, 0, 0, 1, 0, 0, 0, 1, 0, 1],
             [1, 4, 4, 1, 0, 1, 1, 0, 1, 1, 0, 1],
-            [1, 4, 4, 1, 0, 1, 0, 0, 1, 1, 0, 1],
-            [1, 4, 4, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+            [1, 5, 4, 1, 0, 1, 0, 0, 1, 1, 0, 1],
+            [1, 4, 5, 1, 0, 1, 0, 0, 0, 0, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
 
@@ -2864,14 +2906,14 @@ InitLevelMap(LEVEL)
             [1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 3, 4, 0, 0, 1, 3, 3, 0, 0, 1, 1],
             [1, 3, 4, 0, 0, 1, 0, 0, 0, 0, 1, 1],
-            [1, 3, 4, 0, 0, 1, 0, 1, 3, 0, 0, 1],
+            [1, 3, 5, 0, 0, 1, 0, 1, 3, 0, 0, 1],
             [1, 3, 4, 0, 0, 0, 0, 1, 3, 0, 0, 1],
             [1, 1, 1, 1, 3, 0, 0, 1, 3, 0, 0, 1],
             [4, 4, 4, 0, 3, 0, 0, 1, 0, 1, 1, 1],
             [1, 1, 4, 0, 3, 0, 0, 0, 4, 4, 4, 1],
-            [1, 4, 4, 1, 0, 1, 1, 1, 0, 1, 4, 1],
+            [1, 4, 5, 1, 0, 1, 1, 1, 0, 1, 5, 1],
             [1, 4, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1],
-            [1, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1],
+            [1, 4, 4, 5, 4, 4, 4, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
 
@@ -2942,15 +2984,15 @@ InitLevelMap(LEVEL)
             [
             [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
             [1, 4, 4, 4, 1, 0, 0, 1, 4, 4, 4, 1],
-            [1, 4, 1, 4, 1, 0, 0, 1, 4, 1, 4, 1],
+            [1, 4, 1, 5, 1, 0, 0, 1, 4, 1, 4, 1],
             [1, 4, 1, 4, 0, 0, 0, 1, 4, 1, 4, 1],
-            [1, 0, 1, 4, 0, 1, 0, 3, 4, 0, 4, 1],
+            [1, 0, 1, 4, 0, 1, 0, 3, 5, 0, 4, 1],
             [1, 0, 1, 0, 0, 0, 0, 3, 4, 1, 2, 1],
             [1, 0, 0, 0, 0, 0, 0, 3, 4, 1, 1, 1],
             [1, 0, 0, 0, 1, 1, 0, 3, 0, 0, 0, 1],
             [1, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 4, 1, 3, 3, 3, 1, 3, 0, 0, 1, 1],
-            [1, 4, 4, 4, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 4, 5, 4, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
 

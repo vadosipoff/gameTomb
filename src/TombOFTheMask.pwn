@@ -51,6 +51,11 @@ public ON_Init(id, size, const pkt[])
     HeroSprites[3] = GFX_getAssetId("tomb4.png");
     HeroSprites[4] = GFX_getAssetId("tomb5.png");
 
+    BigCoinsImages[0] = GFX_getAssetId("coin1.png");
+    BigCoinsImages[1] = GFX_getAssetId("coin2.png");
+    BigCoinsImages[2] = GFX_getAssetId("coin3.png");
+    BigCoinsImages[3] = GFX_getAssetId("coin4.png");
+
     ImageSpikes = GFX_getAssetId("Spikes.png");
 
 

@@ -99,15 +99,13 @@ ChekCoinsCollision()
 
 CollectCoin(yPos, xPos)
 {
-    if (MAP(HeroFacelet.screen)(yPos)(xPos) == 4)
+    if (MAP(HeroFacelet.screen)(yPos)(xPos) == 4 || MAP(HeroFacelet.screen)(yPos)(xPos) == 5)
     {
         MAP(HeroFacelet.screen)(yPos)(xPos) = 0;
         CoinsNow += 1;
     }
  
 }
-
-
 
 
 WayIsFree(Cell)
@@ -122,6 +120,9 @@ WayIsFree(Cell)
             bFree = true;
 
         case 4:
+            bFree = true;
+
+        case 5:
             bFree = true;
 
     }
