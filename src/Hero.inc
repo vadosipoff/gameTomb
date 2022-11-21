@@ -484,7 +484,8 @@ DrawHero(screenNumber)
 
         
             //printf("Angle = %d, Mirror: %d\n", Angle, Mirror);
-            GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
+            //GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
+            GFX_drawRectangle(HeroRect, 0xFFFFFF00);
         }
         else
         {
@@ -496,7 +497,7 @@ DrawHero(screenNumber)
                 // percent = fdiv(fixed(FinishAnimationScene),fixed(FINISH_SCENE_TIME));
                 percent = fdiv(FinishAnimationScene, FINISH_SCENE_TIME);
                 //printf("percent = %q\n", percent);
-                new  size = fint(10*percent);
+                new  size = fint((SIZE_SCREEN/SIZE_GRID_MAP)/2*percent);
                 //printf("size = %d\n", size);
                 GFX_drawSolidCircleXY(centerX, centerY , size, 0xFF78DBE2);
             }
@@ -514,6 +515,6 @@ DrawHero(screenNumber)
     }
     else 
     {
-        GFX_drawSolidCircleXY(centerX, centerY , 8, 0xFFFFFF00);
+        GFX_drawSolidCircleXY(centerX, centerY , (SIZE_SCREEN/SIZE_GRID_MAP)/2, 0xFFFFFF00);
     }
 }

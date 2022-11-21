@@ -28,10 +28,6 @@
       "alias": "arrows.png"
     },
     {
-      "path": "assets/images/Wall.png",
-      "alias": "Wall.png"
-    },
-    {
       "path": "assets/images/Wall2.png",
       "alias": "Wall2.png"
     },

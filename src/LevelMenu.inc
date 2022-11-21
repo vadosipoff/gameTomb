@@ -22,7 +22,8 @@ Menu()
 
         new TOPOLOGY_orientation: orientation = TOPOLOGY_getFaceletOrientation(MenuFacelet);
 
-        if(orientation == ORIENTATION_UP)
+        //if(orientation == ORIENTATION_UP)
+        if(MenuPlace.face == ORIENTATION_UP)
         {
             new angle = 0;
             switch(MenuPlace.position)

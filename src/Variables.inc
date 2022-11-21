@@ -9,7 +9,7 @@
 #define SIZE_SCREEN 240
 #define MODULE_MAX 8
 #define SCREEN_MAX 3
-#define SIZE_GRID_MAP 12
+#define SIZE_GRID_MAP 6
 
 #define MIN_ACCEL 15
 
@@ -122,12 +122,6 @@ const e_GAME_STATUS:{
 
 const e_GAME_LEVEL:{
     e_GAME_LEVEL_1 = 0,
-    e_GAME_LEVEL_2,
-    e_GAME_LEVEL_3,
-    e_GAME_LEVEL_4,
-    e_GAME_LEVEL_5,
-    e_GAME_LEVEL_6,
-    e_GAME_LEVEL_7,
     e_GAME_LEVEL_MAX
 }
 
