@@ -17,9 +17,12 @@ Menu()
         GFX_clear(0xFF000000);
 
         MenuFacelet.screen = screenNumber;
+
         MenuPlace = TOPOLOGY_getPlace(MenuFacelet);
 
-        if(MenuPlace.face == ORIENTATION_UP)
+        new TOPOLOGY_orientation: orientation = TOPOLOGY_getFaceletOrientation(MenuFacelet);
+
+        if(orientation == ORIENTATION_UP)
         {
             new angle = 0;
             switch(MenuPlace.position)

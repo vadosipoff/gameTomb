@@ -140,8 +140,8 @@ public ON_Message(const pkt[MESSAGE_SIZE])
                     HeroGridPos.xPos = parseByte(pkt, 7);
                     HeroGridPos.yPos = parseByte(pkt, 6);
 
-                    HeroRect.x = HeroGridPos.xPos * 20;
-                    HeroRect.y = HeroGridPos.yPos * 20;
+                    HeroRect.x = HeroGridPos.xPos * (SIZE_SCREEN/SIZE_GRID_MAP);
+                    HeroRect.y = HeroGridPos.yPos * (SIZE_SCREEN/SIZE_GRID_MAP);
 
                     HeroFacelet.module = SELF_ID;
                     HeroFacelet.screen = parseByte(pkt, 2);
@@ -200,7 +200,7 @@ public ON_Message(const pkt[MESSAGE_SIZE])
 
                     new modules_redy = 0;
 
-                    for(new i = 0; i < 8; i++)
+                    for(new i = 0; i < MODULE_MAX; i++)
                     {
                         if(LEVEL_MODULE_INIT[i] == 1)
                         {
@@ -211,7 +211,7 @@ public ON_Message(const pkt[MESSAGE_SIZE])
                     printf("SELF_ID = %d, SOURCE = %d\n", SELF_ID, parseByte(pkt, 3));
                     printf("modules_redy = %d\n", modules_redy);
 
-                    if(modules_redy == 8)
+                    if(modules_redy == MODULE_MAX)
                     {
                         printf("StartEvent\n");
                         SendEvent(e_MESSAGE_EVENT_START);

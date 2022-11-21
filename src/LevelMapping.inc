@@ -85,9 +85,9 @@ DrawGame()
 DrawCoins(screenNumber)
 {
 
-    for(new i = 0; i < 12; i++)
+    for(new i = 0; i < SIZE_GRID_MAP; i++)
     {
-        for(new j = 0; j < 12; j++)
+        for(new j = 0; j < SIZE_GRID_MAP; j++)
         {
             if (MAP(screenNumber)(i)(j) == 4)
             {
@@ -95,8 +95,8 @@ DrawCoins(screenNumber)
                 rect.h = 4;
                 rect.w = 4;
 
-                rect.x = j * 240/12 + 8;
-                rect.y = i * 240/12 + 8;
+                rect.x = j * (SIZE_SCREEN/SIZE_GRID_MAP) + 8;
+                rect.y = i * (SIZE_SCREEN/SIZE_GRID_MAP) + 8;
 
                 GFX_drawRectangle(rect, CoinsColors[CoinColor]);
             }
@@ -104,8 +104,8 @@ DrawCoins(screenNumber)
             if (MAP(screenNumber)(i)(j) == 5)
             {
                 new Mirror = MIRROR_BLANK;
-                new CenterX = j * 240/12 + 10;
-                new CenterY = i * 240/12 + 10;
+                new CenterX = j * (SIZE_SCREEN/SIZE_GRID_MAP) + 10;
+                new CenterY = i * (SIZE_SCREEN/SIZE_GRID_MAP) + 10;
                 if (BigCoinsAnimationIterSide == 0)
                 {
                     Mirror = MIRROR_BLANK;
@@ -132,10 +132,10 @@ DrawFinishPoint(screenNumber)
         new color;
         for(new i = 0; i < 5; i++)
         {
-            rectF.h = 20 - i*step;
-            rectF.w = 20 - i*step;
-            rectF.x = FinishGridPos.xPos * SIZE_SCREEN/SIZE_GRID_MAP + (20 - rectF.w)/2;
-            rectF.y = FinishGridPos.yPos * SIZE_SCREEN/SIZE_GRID_MAP + (20 - rectF.h)/2;
+            rectF.h = (SIZE_SCREEN/SIZE_GRID_MAP) - i*step;
+            rectF.w = (SIZE_SCREEN/SIZE_GRID_MAP) - i*step;
+            rectF.x = FinishGridPos.xPos * (SIZE_SCREEN/SIZE_GRID_MAP) + ((SIZE_SCREEN/SIZE_GRID_MAP) - rectF.w)/2;
+            rectF.y = FinishGridPos.yPos * (SIZE_SCREEN/SIZE_GRID_MAP) + ((SIZE_SCREEN/SIZE_GRID_MAP) - rectF.h)/2;
 
 
             if (i == 0)
@@ -227,19 +227,19 @@ BakeStaticLevelMap()
         new centerX = 0;
         new centerY = 0;
         new rect[GFX_RECTANGLE];
-        rect.h = 20;
-        rect.w = 20;
+        rect.h = (SIZE_SCREEN/SIZE_GRID_MAP);
+        rect.w = (SIZE_SCREEN/SIZE_GRID_MAP);
 
-        for(new i = 0; i < 12; i++)
+        for(new i = 0; i < SIZE_GRID_MAP; i++)
         {
-            for(new j = 0; j < 12; j++)
+            for(new j = 0; j < SIZE_GRID_MAP; j++)
             {
                 if (MAP(screenNumber)(i)(j) == 1)
                 {
-                    rect.x = j * 240/12;
-                    rect.y = i * 240/12;
-                    centerX = rect.x + 10;
-                    centerY = rect.y + 10;
+                    rect.x = j * (SIZE_SCREEN/SIZE_GRID_MAP);
+                    rect.y = i * (SIZE_SCREEN/SIZE_GRID_MAP);
+                    centerX = rect.x + (SIZE_SCREEN/SIZE_GRID_MAP)/2;
+                    centerY = rect.y + (SIZE_SCREEN/SIZE_GRID_MAP)/2;
                     //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 153, 000, 204));
                     DrawCellWall(screenNumber, i, j, ImageWallStick);
                     //GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageWall);
@@ -256,10 +256,10 @@ BakeStaticLevelMap()
                 if (MAP(screenNumber)(i)(j) == 3)
                 {
 
-                    rect.x = j * 240/12;
-                    rect.y = i * 240/12;
-                    centerX = rect.x + 10;
-                    centerY = rect.y + 10;
+                    rect.x = j * (SIZE_SCREEN/SIZE_GRID_MAP);
+                    rect.y = i * (SIZE_SCREEN/SIZE_GRID_MAP);
+                    centerX = rect.x + (SIZE_SCREEN/SIZE_GRID_MAP)/2;
+                    centerY = rect.y + (SIZE_SCREEN/SIZE_GRID_MAP)/2;
                     //GFX_drawRectangle(rect, GFX_fromARGB8888(255, 153, 000, 204));
                     DrawCellWall(screenNumber, i, j, ImageSpikes);
                     //GFX_drawImageXY(centerX, centerY, 0xFF, 0, 0, MIRROR_BLANK, ImageWall);
@@ -279,24 +279,26 @@ BakeStaticLevelMap()
 
 DrawCellWall(screenNumber, i, j, Image)
 {
+    new PosX = j*(SIZE_SCREEN/SIZE_GRID_MAP)+(SIZE_SCREEN/SIZE_GRID_MAP)/2;
+    new PosY = i*(SIZE_SCREEN/SIZE_GRID_MAP)+(SIZE_SCREEN/SIZE_GRID_MAP)/2
 
-    GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, ImageWallBack);
+    GFX_drawImageXY(PosX, PosY, 0xFF, 0, 0, MIRROR_BLANK, ImageWallBack);
 
     if(j == 0)
     {
-        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 270, MIRROR_BLANK, ImageWallStick);
+        GFX_drawImageXY(PosX, PosY, 0xFF, 0, 270, MIRROR_BLANK, ImageWallStick);
     }
     if(j == 11)
     {
-        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 90, MIRROR_BLANK, ImageWallStick);
+        GFX_drawImageXY(PosX, PosY, 0xFF, 0, 90, MIRROR_BLANK, ImageWallStick);
     }
     if(i == 0)
     {
-        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, ImageWallStick);
+        GFX_drawImageXY(PosX, PosY, 0xFF, 0, 0, MIRROR_BLANK, ImageWallStick);
     }
     if(i == 11)
     {
-        GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 180, MIRROR_BLANK, ImageWallStick);
+        GFX_drawImageXY(PosX, PosY, 0xFF, 0, 180, MIRROR_BLANK, ImageWallStick);
     }
 
 
@@ -304,14 +306,14 @@ DrawCellWall(screenNumber, i, j, Image)
     {
         if(WayIsFree(MAP(screenNumber)(i+1)(j)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 180, MIRROR_BLANK, Image);
+            GFX_drawImageXY(PosX, PosY, 0xFF, 0, 180, MIRROR_BLANK, Image);
         }
     }
     if(i - 1 >= 0)
     {
         if(WayIsFree(MAP(screenNumber)(i-1)(j)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 0, MIRROR_BLANK, Image);
+            GFX_drawImageXY(PosX, PosY, 0xFF, 0, 0, MIRROR_BLANK, Image);
         }
     }
 
@@ -319,14 +321,14 @@ DrawCellWall(screenNumber, i, j, Image)
     {
         if(WayIsFree(MAP(screenNumber)(i)(j+1)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 90, MIRROR_BLANK, Image);
+            GFX_drawImageXY(PosX, PosY, 0xFF, 0, 90, MIRROR_BLANK, Image);
         }
     }
     if(j - 1 >= 0)
     {
         if(WayIsFree(MAP(screenNumber)(i)(j-1)))
         {
-            GFX_drawImageXY(j*20+10, i*20+10, 0xFF, 0, 270, MIRROR_BLANK, Image);
+            GFX_drawImageXY(PosX, PosY, 0xFF, 0, 270, MIRROR_BLANK, Image);
         }
     }
 
@@ -351,15 +353,15 @@ InitLevelMap(LEVEL)
     BigCoinsAnimationIter = 0;
     BigCoinsAnimationIterSide = 0;
 
-    HeroRect.w = 20;
-    HeroRect.h = 20
+    HeroRect.w = (SIZE_SCREEN/SIZE_GRID_MAP);
+    HeroRect.h = (SIZE_SCREEN/SIZE_GRID_MAP);
 
     if(LEVEL == 1)
     {
         HeroGridPos.xPos = 7;
         HeroGridPos.yPos = 10;
-        HeroRect.x =  HeroGridPos.xPos * SIZE_SCREEN/SIZE_GRID_MAP;
-        HeroRect.y =  HeroGridPos.yPos * SIZE_SCREEN/SIZE_GRID_MAP;
+        HeroRect.x =  HeroGridPos.xPos * (SIZE_SCREEN/SIZE_GRID_MAP);
+        HeroRect.y =  HeroGridPos.yPos * (SIZE_SCREEN/SIZE_GRID_MAP);
 
         new MODULES_MAP_1[MODULE_MAX*SCREEN_MAX][SIZE_GRID_MAP][SIZE_GRID_MAP] = 
         [

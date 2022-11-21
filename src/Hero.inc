@@ -8,8 +8,8 @@ HeroLogic()
     timer.time = currentTime;
     if(SELF_ID == HeroFacelet.module)
     {
-        HeroPreviosGridPos.xPos = HeroRect.x / 20;
-        HeroPreviosGridPos.yPos = HeroRect.y / 20;
+        HeroPreviosGridPos.xPos = HeroRect.x / (SIZE_SCREEN/SIZE_GRID_MAP);
+        HeroPreviosGridPos.yPos = HeroRect.y / (SIZE_SCREEN/SIZE_GRID_MAP);
         if (!HeroMoveStatus)
         {
             new Dir = 0;
@@ -39,14 +39,14 @@ ChekCoinsCollision()
     new EndPos;
     //new PreviosPos;
 
-    if(HeroRect.x / 20 != HeroPreviosGridPos.xPos || HeroRect.y / 20 != HeroPreviosGridPos.yPos)
+    if(HeroRect.x / (SIZE_SCREEN/SIZE_GRID_MAP) != HeroPreviosGridPos.xPos || HeroRect.y / (SIZE_SCREEN/SIZE_GRID_MAP) != HeroPreviosGridPos.yPos)
     {
 
         switch (Direction)
         {
             case DIRECTION_X:
             {
-                CurrentGridMAxisPos = HeroRect.x / 20;
+                CurrentGridMAxisPos = HeroRect.x / (SIZE_SCREEN/SIZE_GRID_MAP);
 
                 if(CurrentGridMAxisPos - HeroPreviosGridPos.xPos > 0)
                 {
@@ -69,7 +69,7 @@ ChekCoinsCollision()
             }
             case DIRECTION_Y:
             {
-                CurrentGridMAxisPos = HeroRect.y / 20;
+                CurrentGridMAxisPos = HeroRect.y / (SIZE_SCREEN/SIZE_GRID_MAP);
 
                 if(CurrentGridMAxisPos - HeroPreviosGridPos.yPos > 0)
                 {
@@ -141,7 +141,7 @@ chekHeroMovingWay(DirectionF, Accel)
         {
 
             HeroGridTargetPos.yPos = HeroGridPos.yPos;
-            for(new i = HeroGridPos.xPos; i < 12; i++)
+            for(new i = HeroGridPos.xPos; i < SIZE_GRID_MAP; i++)
             {
                 if (WayIsFree(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i)))
                 {
@@ -179,7 +179,7 @@ chekHeroMovingWay(DirectionF, Accel)
         {
 
             HeroGridTargetPos.xPos = HeroGridPos.xPos;
-            for(new i = HeroGridPos.yPos; i < 12; i++)
+            for(new i = HeroGridPos.yPos; i < SIZE_GRID_MAP; i++)
             {
                 if (WayIsFree(MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos)))
                 {
@@ -229,20 +229,20 @@ MoveHero()
 
     if(Direction == DIRECTION_X)
     {
-        if (HeroGridTargetPos.xPos*20 - HeroRect.x > 0)
+        if (HeroGridTargetPos.xPos*(SIZE_SCREEN/SIZE_GRID_MAP) - HeroRect.x > 0)
         {
-            distance = HeroGridTargetPos.xPos*20 - HeroRect.x;
+            distance = HeroGridTargetPos.xPos*(SIZE_SCREEN/SIZE_GRID_MAP) - HeroRect.x;
             if (distance > deltaTime)
             {
                 HeroRect.x = HeroRect.x + 1*deltaTime; 
             }
             else
             {
-                HeroRect.x = HeroGridTargetPos.xPos*20;
+                HeroRect.x = HeroGridTargetPos.xPos*(SIZE_SCREEN/SIZE_GRID_MAP);
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
                 //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos - 1);
                 HeroMoveStatus = false;
-                if(HeroGridPos.xPos < 11)
+                if(HeroGridPos.xPos < SIZE_GRID_MAP-1)
                 {
                     chekSpickeGameOver(Direction, 1);
                 }
@@ -250,14 +250,14 @@ MoveHero()
         }
         else
         {
-            distance = HeroGridTargetPos.xPos*20 - HeroRect.x;
+            distance = HeroGridTargetPos.xPos*(SIZE_SCREEN/SIZE_GRID_MAP) - HeroRect.x;
             if (distance < -deltaTime)
             {
                 HeroRect.x = HeroRect.x - 1*deltaTime; 
             }
             else
             {
-                HeroRect.x = HeroGridTargetPos.xPos*20;
+                HeroRect.x = HeroGridTargetPos.xPos*(SIZE_SCREEN/SIZE_GRID_MAP);
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
                 //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos + 1);
                 HeroMoveStatus = false;
@@ -276,20 +276,20 @@ MoveHero()
     }
     else if (Direction == DIRECTION_Y)
     {
-        if (HeroGridTargetPos.yPos*20 - HeroRect.y > 0)
+        if (HeroGridTargetPos.yPos*(SIZE_SCREEN/SIZE_GRID_MAP) - HeroRect.y > 0)
         {
-            distance = HeroGridTargetPos.yPos*20 - HeroRect.y;
+            distance = HeroGridTargetPos.yPos*(SIZE_SCREEN/SIZE_GRID_MAP) - HeroRect.y;
             if (distance > deltaTime)
             {
                 HeroRect.y = HeroRect.y + 1*deltaTime; 
             }
             else
             {
-                HeroRect.y = HeroGridTargetPos.yPos*20;
+                HeroRect.y = HeroGridTargetPos.yPos*(SIZE_SCREEN/SIZE_GRID_MAP);
                 HeroGridPos.yPos = HeroGridTargetPos.yPos;
                 //CollectCoin(HeroGridPos.yPos - 1, HeroGridPos.xPos);
                 HeroMoveStatus = false;
-                if(HeroGridPos.yPos < 11)
+                if(HeroGridPos.yPos < SIZE_GRID_MAP-1)
                 {
                     chekSpickeGameOver(Direction, 1);
                 }
@@ -297,14 +297,14 @@ MoveHero()
         }
         else
         {
-            distance = HeroGridTargetPos.yPos*20 - HeroRect.y;
+            distance = HeroGridTargetPos.yPos*(SIZE_SCREEN/SIZE_GRID_MAP) - HeroRect.y;
             if (distance < -deltaTime)
             {
                 HeroRect.y = HeroRect.y - 1*deltaTime; 
             }
             else
             {
-                HeroRect.y = HeroGridTargetPos.yPos*20;
+                HeroRect.y = HeroGridTargetPos.yPos*(SIZE_SCREEN/SIZE_GRID_MAP);
                 HeroGridPos.yPos = HeroGridTargetPos.yPos;
                 //CollectCoin(HeroGridPos.yPos + 1, HeroGridPos.xPos);
                 HeroMoveStatus = false;
@@ -347,7 +347,7 @@ chekWictoryOrGameOver()
 
     if(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(HeroGridPos.xPos) == 2)
     {
-        printf("is finish\n");
+        //printf("is finish\n");
         IsFinish = true;
 
     }
@@ -433,8 +433,8 @@ MoveHeroToNeighbor(MODULE_DEST, MOVE_FLAG, MODULE_DEST_SCREEN, HERO_X_POS, HERO_
 
 DrawHero(screenNumber)
 {
-    new centerX = HeroRect.x + 10;
-    new centerY = HeroRect.y + 10;
+    new centerX = HeroRect.x + (SIZE_SCREEN/SIZE_GRID_MAP)/2;
+    new centerY = HeroRect.y + (SIZE_SCREEN/SIZE_GRID_MAP)/2;
     new Angle;
     new Mirror = MIRROR_BLANK;
 
@@ -488,7 +488,7 @@ DrawHero(screenNumber)
         }
         else
         {
-            printf("IsFinish\n");
+            //printf("IsFinish\n");
             if(FinishAnimationScene > 0)
             {
                 FinishAnimationScene -= deltaTime;
@@ -497,7 +497,7 @@ DrawHero(screenNumber)
                 percent = fdiv(FinishAnimationScene, FINISH_SCENE_TIME);
                 //printf("percent = %q\n", percent);
                 new  size = fint(10*percent);
-                printf("size = %d\n", size);
+                //printf("size = %d\n", size);
                 GFX_drawSolidCircleXY(centerX, centerY , size, 0xFF78DBE2);
             }
             else

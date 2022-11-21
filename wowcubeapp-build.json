@@ -88,10 +88,6 @@
       "alias": "Spikes.png"
     },
     {
-      "path": "assets/images/coin-clipart-sprite-5.png",
-      "alias": "coin-clipart-sp"
-    },
-    {
       "path": "assets/images/coin1.png",
       "alias": "coin1.png"
     },
@@ -106,14 +102,6 @@
     {
       "path": "assets/images/coin4.png",
       "alias": "coin4.png"
-    },
-    {
-      "path": "assets/images/Full Coinss.png",
-      "alias": "Full Coinss.png"
-    },
-    {
-      "path": "assets/images/motion-graphics-animate-a-pixel-art-coin-free-adobe-photoshop-156160.png",
-      "alias": "motion-graphics"
     }
   ],
   "soundAssets": []
