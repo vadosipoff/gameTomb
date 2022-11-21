@@ -484,8 +484,8 @@ DrawHero(screenNumber)
 
         
             //printf("Angle = %d, Mirror: %d\n", Angle, Mirror);
-            //GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
-            GFX_drawRectangle(HeroRect, 0xFFFFFF00);
+            GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
+            //GFX_drawRectangle(HeroRect, 0xFFFFFF00);
         }
         else
         {
