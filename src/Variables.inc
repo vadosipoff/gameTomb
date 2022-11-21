@@ -9,7 +9,7 @@
 #define SIZE_SCREEN 240
 #define MODULE_MAX 8
 #define SCREEN_MAX 3
-#define SIZE_GRID_MAP 6
+#define SIZE_GRID_MAP 8
 
 #define MIN_ACCEL 15
 
