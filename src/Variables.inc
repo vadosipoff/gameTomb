@@ -4,12 +4,16 @@
 #include "motion_sensor.inc"
 #include "math.inc"
 
-#define GAME_VERSION "v0.0.14"
+#define GAME_VERSION "v0.0.15"
 
 #define SIZE_SCREEN 240
 #define MODULE_MAX 8
 #define SCREEN_MAX 3
-#define SIZE_GRID_MAP 8
+//////////////////////////////
+#define SIZE_GRID_MAP 8 // For size all objects
+#define SIZE_LOGIC_GRID 9 // logic map always = SIZE_GRID_MAP + 1
+///////////////////////////////
+new INDENT = (SIZE_SCREEN/SIZE_GRID_MAP)/2;
 
 #define MIN_ACCEL 15
 
@@ -20,7 +24,7 @@
 #define TOP_LEFT 102
 
 
-new MODULES_MAP [MODULE_MAX * SCREEN_MAX][SIZE_GRID_MAP][SIZE_GRID_MAP];
+new MODULES_MAP [MODULE_MAX * SCREEN_MAX][SIZE_LOGIC_GRID][SIZE_LOGIC_GRID];
 #define MAP(%0)(%1)(%2) MODULES_MAP[SELF_ID * SCREEN_MAX + %0][%1][%2]
 
 
