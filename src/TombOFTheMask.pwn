@@ -44,6 +44,8 @@ public ON_Init(id, size, const pkt[])
 
     ImageWallStick = GFX_getAssetId("ImageWallStick.png");
     ImageWallBack = GFX_getAssetId("ImageWallBack2.png");
+    ImageWallAngle = GFX_getAssetId("ImageWallAngle.png");
+    ImageWallAngleSingle = GFX_getAssetId("ImageWallAngleSingle.png");
 
     HeroSprites[0] = GFX_getAssetId("tomb1.png");
     HeroSprites[1] = GFX_getAssetId("tomb2.png");
@@ -73,6 +75,8 @@ public ON_Init(id, size, const pkt[])
 
     IsInitialization = false;
     currentLevel = 1;
+    
+   
 
     GameStatus = e_GAME_STATUS_MENU;
 
@@ -86,12 +90,13 @@ public ON_Load(id, size, const pkt[])
 //Main run loop callback. Gets called recurrently by the CUB application as frequent as application code allows. 
 public ON_Tick()
 {
-
+    
     switch (GameStatus)
     {
         case e_GAME_STATUS_MENU:
         {
-            Menu();
+            //Menu();
+            InitLevelMap(currentLevel);
         }
         case e_GAME_STATUS_GAME:
         {
@@ -208,12 +213,12 @@ public ON_Message(const pkt[MESSAGE_SIZE])
                         }
                     }
 
-                    printf("SELF_ID = %d, SOURCE = %d\n", SELF_ID, parseByte(pkt, 3));
-                    printf("modules_redy = %d\n", modules_redy);
+                    //printf("SELF_ID = %d, SOURCE = %d\n", SELF_ID, parseByte(pkt, 3));
+                    //printf("modules_redy = %d\n", modules_redy);
 
                     if(modules_redy == MODULE_MAX)
                     {
-                        printf("StartEvent\n");
+                        //printf("StartEvent\n");
                         SendEvent(e_MESSAGE_EVENT_START);
                     }
                 }

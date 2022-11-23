@@ -141,7 +141,7 @@ chekHeroMovingWay(DirectionF, Accel)
         {
 
             HeroGridTargetPos.yPos = HeroGridPos.yPos;
-            for(new i = HeroGridPos.xPos; i < SIZE_GRID_MAP; i++)
+            for(new i = HeroGridPos.xPos; i < SIZE_LOGIC_GRID; i++)
             {
                 if (WayIsFree(MAP(HeroFacelet.screen)(HeroGridPos.yPos)(i)))
                 {
@@ -179,7 +179,7 @@ chekHeroMovingWay(DirectionF, Accel)
         {
 
             HeroGridTargetPos.xPos = HeroGridPos.xPos;
-            for(new i = HeroGridPos.yPos; i < SIZE_GRID_MAP; i++)
+            for(new i = HeroGridPos.yPos; i < SIZE_LOGIC_GRID; i++)
             {
                 if (WayIsFree(MAP(HeroFacelet.screen)(i)(HeroGridPos.xPos)))
                 {
@@ -242,7 +242,7 @@ MoveHero()
                 HeroGridPos.xPos = HeroGridTargetPos.xPos;
                 //CollectCoin(HeroGridPos.yPos, HeroGridPos.xPos - 1);
                 HeroMoveStatus = false;
-                if(HeroGridPos.xPos < SIZE_GRID_MAP-1)
+                if(HeroGridPos.xPos < SIZE_LOGIC_GRID-1)
                 {
                     chekSpickeGameOver(Direction, 1);
                 }
@@ -289,7 +289,7 @@ MoveHero()
                 HeroGridPos.yPos = HeroGridTargetPos.yPos;
                 //CollectCoin(HeroGridPos.yPos - 1, HeroGridPos.xPos);
                 HeroMoveStatus = false;
-                if(HeroGridPos.yPos < SIZE_GRID_MAP-1)
+                if(HeroGridPos.yPos < SIZE_LOGIC_GRID-1)
                 {
                     chekSpickeGameOver(Direction, 1);
                 }
@@ -484,8 +484,8 @@ DrawHero(screenNumber)
 
         
             //printf("Angle = %d, Mirror: %d\n", Angle, Mirror);
-            //GFX_drawImageXY(centerX, centerY, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
-            GFX_drawRectangle(HeroRect, 0xFFFFFF00);
+            GFX_drawImageXY(centerX-INDENT, centerY-INDENT, 0xFF, 0, Angle, Mirror, HeroSprites[HeroAnimIter]);
+            //GFX_drawRectangle(HeroRect, 0xFFFFFF00);
         }
         else
         {
@@ -499,7 +499,7 @@ DrawHero(screenNumber)
                 //printf("percent = %q\n", percent);
                 new  size = fint((SIZE_SCREEN/SIZE_GRID_MAP)/2*percent);
                 //printf("size = %d\n", size);
-                GFX_drawSolidCircleXY(centerX, centerY , size, 0xFF78DBE2);
+                GFX_drawSolidCircleXY(centerX-INDENT, centerY-INDENT, size, 0xFF78DBE2);
             }
             else
             {
@@ -515,6 +515,6 @@ DrawHero(screenNumber)
     }
     else 
     {
-        GFX_drawSolidCircleXY(centerX, centerY , (SIZE_SCREEN/SIZE_GRID_MAP)/2, 0xFFFFFF00);
+        GFX_drawSolidCircleXY(centerX-INDENT, centerY-INDENT, (SIZE_SCREEN/SIZE_GRID_MAP)/2, 0xFFFFFF00);
     }
 }

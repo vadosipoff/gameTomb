@@ -1,15 +1,12 @@
 {
-  "name": "TombOFTheMask",
+  "name": "TOMB_x_1.5",
   "version": "1.0.0",
-  "sourceFile": "src/TombOFTheMask.pwn",
-  "scriptFile": "binary/TombOFTheMask.amx",
+  "sdkVersion": "5.0",
   "appIcon": {
     "path": "assets/icon.png"
   },
-  "soundAssetsDir": "assets/sounds",
-  "imageAssetsDir": "assets/images",
-  "sdkVersion": "5.0",
-  "appFlags": 0,
+  "sourceFile": "src/TombOFTheMask.pwn",
+  "scriptFile": "binary/TombOFTheMask.amx",
   "imageAssets": [
     {
       "path": "assets/images/arrows.jpg",
@@ -98,7 +95,20 @@
     {
       "path": "assets/images/coin4.png",
       "alias": "coin4.png"
+    },
+    {
+      "path": "assets/images/ImageWallAngle.png",
+      "alias": "ImageWallAngle."
+    },
+    {
+      "path": "assets/images/ImageWallAngleSingle.png",
+      "alias": "ImageWallAngleS"
+    },
+    {
+      "path": "assets/images/pixil-frame-0 (76).png",
+      "alias": "pixil-frame-0 ("
     }
   ],
-  "soundAssets": []
+  "soundAssets": [],
+  "appFlags": 0
 }
