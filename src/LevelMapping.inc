@@ -25,7 +25,7 @@ DrawGame()
                 BigCoinsAnimationIterSide = 0;
             }
         }
-        printf("BigCoinsAnimationIter = %d\n", BigCoinsAnimationIter);
+        //printf("BigCoinsAnimationIter = %d\n", BigCoinsAnimationIter);
     }
     
     // if (currentTime - MapBackGroundAnimationTimer.time > MapBackGroundAnimationTimer.delay)
@@ -114,7 +114,7 @@ DrawCoins(screenNumber)
                 {
                     Mirror = MIRROR_X;
                 }
-                printf("Mirror = %d\n", Mirror);
+                //printf("Mirror = %d\n", Mirror);
                 GFX_drawImageXY(CenterX, CenterY, 0xFF, 0, 0, Mirror, BigCoinsImages[BigCoinsAnimationIter]);
             }
         }
@@ -3081,5 +3081,5 @@ InitLevelMap(LEVEL)
 
 
     BakeStaticLevelMap();
-    SendEvent(e_MESSAGE_LEVEL_INIT_COMPLETE);
+    //SendEvent(e_MESSAGE_LEVEL_INIT_COMPLETE);
 }
