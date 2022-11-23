@@ -45,7 +45,7 @@ Menu()
             {
                 GFX_drawText([100, 120], 20, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "%d", currentLevel);
                 GFX_drawText([160, 120], 20, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "LEVEL");
-                GFX_drawText([20, 120], 6, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "Double Tap to Start");
+                //GFX_drawText([20, 120], 6, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "Double Tap to Start");
             }
 
             if(MenuPlace.position == 0)
@@ -58,7 +58,7 @@ Menu()
             if(MenuPlace.position == 2)
             {
                 GFX_drawText([120, 155], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "TWIST TO");
-                GFX_drawText([120, 115], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "CHANGE");
+                GFX_drawText([120, 115], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "START");
                 GFX_drawText([120, 75], 14, angle, 0, TEXT_ALIGN_CENTER, 0xFFFFFFFF, "LEVEL");
             }
 
