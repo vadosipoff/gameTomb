@@ -4,7 +4,7 @@
 #include "motion_sensor.inc"
 #include "math.inc"
 
-#define GAME_VERSION "v0.0.15"
+#define GAME_VERSION "v0.0.16"
 
 #define SIZE_SCREEN 240
 #define MODULE_MAX 8
@@ -55,6 +55,8 @@ new ImageWall;
 new ImageSpike;
 new ImageWallStick;
 new ImageWallBack;
+new ImageWallAngle;
+new ImageWallAngleSingle;
 new ImageSpikes;
 
 

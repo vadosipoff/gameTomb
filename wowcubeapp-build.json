@@ -98,6 +98,18 @@
     {
       "path": "assets/images/coin4.png",
       "alias": "coin4.png"
+    },
+    {
+      "path": "assets/images/ImageWallAngle.png",
+      "alias": "ImageWallAngle."
+    },
+    {
+      "path": "assets/images/ImageWallAngleSingle.png",
+      "alias": "ImageWallAngleS"
+    },
+    {
+      "path": "assets/images/pixil-frame-0 (76).png",
+      "alias": "pixil-frame-0 ("
     }
   ],
   "soundAssets": []

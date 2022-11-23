@@ -25,7 +25,7 @@ DrawGame()
                 BigCoinsAnimationIterSide = 0;
             }
         }
-        printf("BigCoinsAnimationIter = %d\n", BigCoinsAnimationIter);
+        //printf("BigCoinsAnimationIter = %d\n", BigCoinsAnimationIter);
     }
     
     // if (currentTime - MapBackGroundAnimationTimer.time > MapBackGroundAnimationTimer.delay)
@@ -114,7 +114,7 @@ DrawCoins(screenNumber)
                 {
                     Mirror = MIRROR_X;
                 }
-                printf("Mirror = %d\n", Mirror);
+                //printf("Mirror = %d\n", Mirror);
                 GFX_drawImageXY(CenterX-INDENT, CenterY-INDENT, 0xFF, 0, 0, Mirror, BigCoinsImages[BigCoinsAnimationIter]);
             }
         }
@@ -274,6 +274,9 @@ BakeStaticLevelMap()
         GFX_render();
 
     }
+    printf("END backed\n");
+    GameStatus = e_GAME_STATUS_GAME;
+
 }
 
 
@@ -284,6 +287,8 @@ DrawCellWall(screenNumber, i, j, Image)
 
     GFX_drawImageXY(PosX, PosY, 0xFF, 0, 0, MIRROR_BLANK, ImageWallBack);
 
+
+    
     if(j == 0)
     {
         GFX_drawImageXY(PosX, PosY, 0xFF, 0, 270, MIRROR_BLANK, ImageWallStick);
@@ -301,11 +306,48 @@ DrawCellWall(screenNumber, i, j, Image)
         GFX_drawImageXY(PosX, PosY, 0xFF, 0, 180, MIRROR_BLANK, ImageWallStick);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    if(MAP(screenNumber)(i)(j) == 1)
+    {
+        if((i - 1 >= 0) && (j - 1 >= 0))
+        {
+            if(!WayIsFree(MAP(screenNumber)(i-1)(j)) && !WayIsFree(MAP(screenNumber)(i)(j-1)) && WayIsFree(MAP(screenNumber)(i-1)(j-1)))
+            {
+                GFX_drawImageXY(PosX, PosY, 0xFF, 0, 0, MIRROR_BLANK, ImageWallAngleSingle);
+            }
+        }
+        if((i - 1 >= 0) && (j + 1 < SIZE_GRID_MAP))
+        {
+            if(!WayIsFree(MAP(screenNumber)(i-1)(j)) && !WayIsFree(MAP(screenNumber)(i)(j+1)) && WayIsFree(MAP(screenNumber)(i-1)(j+1)))
+            {
+                GFX_drawImageXY(PosX, PosY, 0xFF, 0, 90, MIRROR_BLANK, ImageWallAngleSingle);
+            }
+        }
+
+        if((i + 1 < SIZE_GRID_MAP) && (j + 1 < SIZE_GRID_MAP))
+        {
+            if(!WayIsFree(MAP(screenNumber)(i+1)(j)) && !WayIsFree(MAP(screenNumber)(i)(j+1)) && WayIsFree(MAP(screenNumber)(i+1)(j+1)))
+            {
+                GFX_drawImageXY(PosX, PosY, 0xFF, 0, 180, MIRROR_BLANK, ImageWallAngleSingle);
+            }
+        }
+        if((i + 1 < SIZE_GRID_MAP) && (j - 1 >= 0))
+        {
+            if(!WayIsFree(MAP(screenNumber)(i+1)(j)) && !WayIsFree(MAP(screenNumber)(i)(j-1)) && WayIsFree(MAP(screenNumber)(i+1)(j-1)))
+            {
+                GFX_drawImageXY(PosX, PosY, 0xFF, 0, 270, MIRROR_BLANK, ImageWallAngleSingle);
+            }
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     if(i + 1 < SIZE_GRID_MAP)
     {
         if(WayIsFree(MAP(screenNumber)(i+1)(j)))
         {
+            //GFX_drawImageXY(PosX, PosY, 0xFF, 0, 180, MIRROR_BLANK, ImageWallAngle);
             GFX_drawImageXY(PosX, PosY, 0xFF, 0, 180, MIRROR_BLANK, Image);
         }
     }
@@ -313,6 +355,7 @@ DrawCellWall(screenNumber, i, j, Image)
     {
         if(WayIsFree(MAP(screenNumber)(i-1)(j)))
         {
+            //GFX_drawImageXY(PosX, PosY, 0xFF, 0, 0, MIRROR_BLANK, ImageWallAngle);
             GFX_drawImageXY(PosX, PosY, 0xFF, 0, 0, MIRROR_BLANK, Image);
         }
     }
@@ -321,6 +364,7 @@ DrawCellWall(screenNumber, i, j, Image)
     {
         if(WayIsFree(MAP(screenNumber)(i)(j+1)))
         {
+            //GFX_drawImageXY(PosX, PosY, 0xFF, 0, 90, MIRROR_BLANK, ImageWallAngle);
             GFX_drawImageXY(PosX, PosY, 0xFF, 0, 90, MIRROR_BLANK, Image);
         }
     }
@@ -328,6 +372,7 @@ DrawCellWall(screenNumber, i, j, Image)
     {
         if(WayIsFree(MAP(screenNumber)(i)(j-1)))
         {
+            //GFX_drawImageXY(PosX, PosY, 0xFF, 0, 270, MIRROR_BLANK, ImageWallAngle);
             GFX_drawImageXY(PosX, PosY, 0xFF, 0, 270, MIRROR_BLANK, Image);
         }
     }
@@ -404,11 +449,11 @@ InitLevelMap(LEVEL)
             /// MODULE 1 ////////////////////////////////////////////////////////////////////////////////////
             [
             [1, 1, 1, 1, 1, 1, 1, 4, 1],
-            [1, 4, 5, 4, 5, 4, 1, 4, 1],
-            [1, 4, 1, 1, 1, 4, 4, 5, 1],
-            [1, 5, 4, 4, 1, 1, 1, 1, 1],
-            [1, 1, 1, 4, 1, 2, 1, 1, 1],
-            [1, 4, 5, 4, 4, 4, 5, 4, 1],
+            [1, 4, 5, 4, 5, 4, 5, 4, 1],
+            [1, 4, 1, 1, 1, 1, 1, 1, 1],
+            [1, 5, 1, 4, 4, 4, 1, 1, 1],
+            [5, 4, 4, 5, 4, 4, 5, 4, 1],
+            [1, 4, 0, 4, 1, 4, 0, 4, 1],
             [1, 4, 1, 4, 1, 4, 1, 4, 1],
             [1, 4, 4, 5, 1, 4, 4, 5, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -439,14 +484,14 @@ InitLevelMap(LEVEL)
 
             /// MODULE 2 ////////////////////////////////////////////////////////////////////////////////////
             [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 4, 1, 1, 1, 1],
+            [1, 1, 1, 1, 5, 1, 1, 1, 1],
+            [1, 4, 5, 4, 4, 4, 5, 4, 1],
+            [1, 4, 1, 1, 4, 1, 1, 4, 1],
+            [1, 4, 1, 1, 4, 1, 1, 4, 1],
+            [1, 4, 1, 1, 4, 1, 1, 4, 1],
+            [1, 5, 2, 1, 5, 1, 1, 5, 1],
+            [1, 4, 4, 1, 4, 4, 5, 4, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1]
             ],
             [
@@ -659,5 +704,5 @@ InitLevelMap(LEVEL)
 
 
     BakeStaticLevelMap();
-    SendEvent(e_MESSAGE_LEVEL_INIT_COMPLETE);
+    //SendEvent(e_MESSAGE_LEVEL_INIT_COMPLETE);
 }
