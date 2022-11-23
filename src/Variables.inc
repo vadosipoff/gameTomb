@@ -4,18 +4,14 @@
 #include "motion_sensor.inc"
 #include "math.inc"
 
-<<<<<<< HEAD
-#define GAME_VERSION "v0.0.14"
-=======
-#define GAME_VERSION "v0.0.17"
->>>>>>> sizeX_Poltora
+#define GAME_VERSION "v0.0.18"
 
 #define SIZE_SCREEN 240
 #define MODULE_MAX 8
 #define SCREEN_MAX 3
 //////////////////////////////
-#define SIZE_GRID_MAP 8 // For size all objects
-#define SIZE_LOGIC_GRID 9 // logic map always = SIZE_GRID_MAP + 1
+#define SIZE_GRID_MAP 6 // For size all objects
+#define SIZE_LOGIC_GRID 7 // logic map always = SIZE_GRID_MAP + 1
 ///////////////////////////////
 new INDENT = (SIZE_SCREEN/SIZE_GRID_MAP)/2;
 

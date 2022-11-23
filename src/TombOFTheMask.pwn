@@ -77,7 +77,6 @@ public ON_Init(id, size, const pkt[])
     currentLevel = 1;
     
    
-
     GameStatus = e_GAME_STATUS_MENU;
 
 }
@@ -95,8 +94,7 @@ public ON_Tick()
     {
         case e_GAME_STATUS_MENU:
         {
-            //Menu();
-            InitLevelMap(currentLevel);
+            Menu();
         }
         case e_GAME_STATUS_GAME:
         {
@@ -245,14 +243,8 @@ public ON_Twist(twist[TOPOLOGY_TWIST_INFO])
     {
         case e_GAME_STATUS_MENU:
         {
-            if(twist.direction == 2 && currentLevel < e_GAME_LEVEL_MAX)
-            {
-                currentLevel++;
-            }
-            else if (twist.direction == 1 && currentLevel > 1)
-            {
-                currentLevel--;
-            }
+            InitLevelMap(currentLevel);
+            GameStatus = e_GAME_STATUS_GAME;
         }
 
         case e_GAME_STATUS_GAME:
@@ -295,28 +287,28 @@ public ON_Shake(const count)
 public ON_Tap(const count, const display, const bool:opposite) 
 {
 
-    switch (GameStatus)
-    {
-        case e_GAME_STATUS_MENU:
-        {
-            if(count == 2 && SELF_ID == 0)
-            {
-                if(!IsInitialization)
-                {
-                    SendEvent(e_MESSAGE_LEVEL_INIT);
-                    InitLevelMap(currentLevel);
-                }
+    // switch (GameStatus)
+    // {
+    //     case e_GAME_STATUS_MENU:
+    //     {
+    //         if(count == 2 && SELF_ID == 0)
+    //         {
+    //             if(!IsInitialization)
+    //             {
+    //                 SendEvent(e_MESSAGE_LEVEL_INIT);
+    //                 InitLevelMap(currentLevel);
+    //             }
 
-            }
+    //         }
 
-        }
+    //     }
 
-        case e_GAME_STATUS_GAME:
-        {
+    //     case e_GAME_STATUS_GAME:
+    //     {
 
-        }
+    //     }
 
-    }
+    // }
     printf("Screen: %d\n", display);
 }
 

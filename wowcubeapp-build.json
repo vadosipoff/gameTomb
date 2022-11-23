@@ -1,5 +1,5 @@
 {
-  "name": "TOMB_x_1.5",
+  "name": "TOMB_x2",
   "version": "1.0.0",
   "sdkVersion": "5.0",
   "appIcon": {
@@ -103,10 +103,6 @@
     {
       "path": "assets/images/ImageWallAngleSingle.png",
       "alias": "ImageWallAngleS"
-    },
-    {
-      "path": "assets/images/pixil-frame-0 (76).png",
-      "alias": "pixil-frame-0 ("
     }
   ],
   "soundAssets": [],
