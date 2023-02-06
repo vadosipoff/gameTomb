@@ -17,32 +17,8 @@
       "alias": "star_empty.png"
     },
     {
-      "path": "assets/images/star_flood.png",
-      "alias": "star_flood.png"
-    },
-    {
       "path": "assets/images/arrows.png",
       "alias": "arrows.png"
-    },
-    {
-      "path": "assets/images/Wall2.png",
-      "alias": "Wall2.png"
-    },
-    {
-      "path": "assets/images/Wall3.png",
-      "alias": "Wall3.png"
-    },
-    {
-      "path": "assets/images/Spike.png",
-      "alias": "Spike.png"
-    },
-    {
-      "path": "assets/images/Wall4.png",
-      "alias": "Wall4.png"
-    },
-    {
-      "path": "assets/images/Wall5.png",
-      "alias": "Wall5.png"
     },
     {
       "path": "assets/images/ImageWallStick.png",
@@ -51,10 +27,6 @@
     {
       "path": "assets/images/ImageWallBack.png",
       "alias": "ImageWallBack.p"
-    },
-    {
-      "path": "assets/images/ImageWallBack2.png",
-      "alias": "ImageWallBack2."
     },
     {
       "path": "assets/images/tomb1.png",
@@ -103,10 +75,6 @@
     {
       "path": "assets/images/ImageWallAngleSingle.png",
       "alias": "ImageWallAngleS"
-    },
-    {
-      "path": "assets/images/pixil-frame-0 (76).png",
-      "alias": "pixil-frame-0 ("
     }
   ],
   "soundAssets": [],

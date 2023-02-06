@@ -38,12 +38,12 @@ public ON_Init(id, size, const pkt[])
 
     ImageStar.flood = GFX_getAssetId("star_empty.png");
     ImageArrows = GFX_getAssetId("arrows.png");
-    ImageWall = GFX_getAssetId("Wall5.png");
-    ImageSpike = GFX_getAssetId("Spike.png");
-    ImageHero = GFX_getAssetId("Tomb.png");
+    //ImageWall = GFX_getAssetId("Wall.png");
+    //ImageSpike = GFX_getAssetId("Spike.png");
+    //ImageHero = GFX_getAssetId("Tomb.png");
 
     ImageWallStick = GFX_getAssetId("ImageWallStick.png");
-    ImageWallBack = GFX_getAssetId("ImageWallBack2.png");
+    ImageWallBack = GFX_getAssetId("ImageWallBack.png");
     ImageWallAngle = GFX_getAssetId("ImageWallAngle.png");
     ImageWallAngleSingle = GFX_getAssetId("ImageWallAngleSingle.png");
 
