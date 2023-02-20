@@ -1,5 +1,5 @@
 {
-  "name": "TOMB_x_1.5",
+  "name": "TOMB_x_3",
   "version": "1.0.0",
   "sdkVersion": "5.0",
   "appIcon": {
@@ -75,6 +75,46 @@
     {
       "path": "assets/images/ImageWallAngleSingle.png",
       "alias": "ImageWallAngleS"
+    },
+    {
+      "path": "assets/images/1.png",
+      "alias": "1.png"
+    },
+    {
+      "path": "assets/images/12.png",
+      "alias": "12.png"
+    },
+    {
+      "path": "assets/images/123.png",
+      "alias": "123.png"
+    },
+    {
+      "path": "assets/images/123123.png",
+      "alias": "123123.png"
+    },
+    {
+      "path": "assets/images/12312344.png",
+      "alias": "12312344.png"
+    },
+    {
+      "path": "assets/images/12344.png",
+      "alias": "12344.png"
+    },
+    {
+      "path": "assets/images/2.png",
+      "alias": "2.png"
+    },
+    {
+      "path": "assets/images/3.png",
+      "alias": "3.png"
+    },
+    {
+      "path": "assets/images/4.png",
+      "alias": "4.png"
+    },
+    {
+      "path": "assets/images/5.png",
+      "alias": "5.png"
     }
   ],
   "soundAssets": [],

@@ -10,8 +10,8 @@
 #define MODULE_MAX 8
 #define SCREEN_MAX 3
 //////////////////////////////
-#define SIZE_GRID_MAP 8 // For size all objects
-#define SIZE_LOGIC_GRID 9 // logic map always = SIZE_GRID_MAP + 1
+#define SIZE_GRID_MAP 4 // For size all objects
+#define SIZE_LOGIC_GRID 5 // logic map always = SIZE_GRID_MAP + 1
 ///////////////////////////////
 new INDENT = (SIZE_SCREEN/SIZE_GRID_MAP)/2;
 
